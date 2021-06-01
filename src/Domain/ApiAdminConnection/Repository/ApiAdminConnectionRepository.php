@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\ApiAdminConnection\Entity;
+namespace App\Domain\ApiAdminConnection\Repository;
 
 use App\Domain\ApiAdminConnection\Entity\ApiAdminConnection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

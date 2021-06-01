@@ -2,7 +2,7 @@
 
 namespace App\Domain\ApiAdminConnection\Entity;
 
-use App\Domain\ApiAdminConnection\Entity\ApiAdminConnectionRepository;
+use App\Domain\ApiAdminConnection\Repository\ApiAdminConnectionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

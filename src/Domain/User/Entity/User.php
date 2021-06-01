@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\Company\Entity\Company;
 use App\Domain\User\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +30,11 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles_company = [];
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -53,6 +59,11 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $state;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="users")
+     */
+    private $company;
 
     public function getId(): ?int
     {
@@ -98,6 +109,34 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole(String $role) : self
+    {
+        array_push($this->roles, $role);
+
+        return $this;
+    }
+
+    public function getRolesCompany(): array
+    {
+        $roles_company = $this->roles_company;
+
+        return array_unique($roles_company);
+    }
+
+    public function setRolesCompany(array $roles_company): self
+    {
+        $this->roles_company = $roles_company;
+
+        return $this;
+    }
+
+    public function addRoleCompany(String $role_company) : self
+    {
+        array_push($this->roles_company, $role_company);
 
         return $this;
     }
@@ -180,6 +219,18 @@ class User implements UserInterface
     public function setState(int $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }
