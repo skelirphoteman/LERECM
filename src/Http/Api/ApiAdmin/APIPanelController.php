@@ -47,4 +47,33 @@ class APIPanelController extends AbstractController
 
         return new JsonResponse("$create");
     }
+
+    /**
+     * @Route("/update/account", name="api_panel_update_company_account")
+     */
+    public function updateAccount(Request $request,
+                                  SkelirPanelService $skelirPanelService) : JsonResponse
+    {
+
+        $ApiAdminConnection = $this->getDoctrine()
+            ->getRepository(ApiAdminConnection::class)
+            ->findOneBy(['name' => $request->request->get('name')]);
+
+
+        if(!$ApiAdminConnection || !password_verify($request->request->get('token'), $ApiAdminConnection->getPasswordToken())){
+
+
+            return new JsonResponse(["Connexion refusé"]);
+        }
+        if(!$request->request->get('email') ||
+            !$request->request->get('user_panel_id') ||
+            !$request->request->get('subscription_panel_id') ||
+            !$request->request->get('end_at')){
+            return new JsonResponse('informations manquantes');
+        }
+
+        $create = $skelirPanelService->updateAccount($request);
+
+        return new JsonResponse("$create");
+    }
 }
