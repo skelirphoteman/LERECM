@@ -8,7 +8,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Domain\Entity\User
+                class: App\Domain\User\Entity\User
                 property: email
     firewalls:
         dev:
@@ -35,5 +35,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/app, roles: ROLE_COMPANY }
+         - { path: /logout, roles: IS_AUTHENTICATED_FULLY }
+         - { path: /login, roles: [IS_ANONYMOUS, IS_AUTHENTICATED_FULLY]  }
+         - { path: ^/reset, roles: IS_ANONYMOUS }
+         - { path: /, roles: [IS_ANONYMOUS, IS_AUTHENTICATED_FULLY] }
