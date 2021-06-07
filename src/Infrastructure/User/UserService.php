@@ -51,4 +51,16 @@ class UserService
 
         return $user;
     }
+
+    public function resetPassword(String $new_password, User $user) : void
+    {
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $new_password
+        ));
+
+        $em = $this->entityManager;
+        $em->persist($user);
+        $em->flush();
+    }
 }
