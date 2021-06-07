@@ -6,6 +6,11 @@ admin_controllers:
     resource: ../../src/Http/Admin/Controller/
     type: annotation
 
+api_admin_controllers:
+        resource: ../../src/Http/Api/ApiAdmin/
+        type: annotation
+
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation
