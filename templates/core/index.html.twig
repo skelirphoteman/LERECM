@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <a href="{{ path('app_login') }}">Espace entreprise</a>
+            </div>
+            <div class="col-12 col-sm-6"><a href="#">Espace Client</a></div>
+        </div>
+    </div>
+{% endblock %}
