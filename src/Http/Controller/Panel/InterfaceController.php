@@ -20,6 +20,6 @@ class InterfaceController extends AbstractController
      */
     public function index(): Response
     {
-        return new Response("Connected");
+        return $this->render('app/panel/Index.html.twig');
     }
 }

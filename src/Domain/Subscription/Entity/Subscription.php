@@ -91,4 +91,13 @@ class Subscription
 
         return $this;
     }
+
+    public function subIsValid() : bool
+    {
+        if($this->end_at > (new \DateTime('now'))){
+            return true;
+        }
+
+        return false;
+    }
 }
