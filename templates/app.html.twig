@@ -28,7 +28,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="clientDropdown">
                             <li><a class="dropdown-item" href="{{ path('app_client_add') }}">Ajouter un Client</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_client_list') }}">Liste des Clients</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                     </li>
                 </ul>
             </div>
@@ -50,7 +54,7 @@
         </div>
     </div>
 
-    <section class="container p-5">
+    <section class="container-fluid p-5">
         {% block body %}{% endblock %}
     </section>
     {{ encore_entry_script_tags('appjs') }}

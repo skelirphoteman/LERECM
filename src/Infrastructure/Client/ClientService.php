@@ -31,6 +31,13 @@ class ClientService
         $em->flush();
     }
 
+    private function removeClient(Client $client): void
+    {
+        $em = $this->entityManager;
+        $em->remove($client);
+        $em->flush();
+    }
+
     public function addClient(Client $client, User $user) : ?String
     {
 
@@ -39,6 +46,17 @@ class ClientService
         }
 
         $this->insertClient($client);
+
+        return null;
+    }
+
+    public function deleteClient(Client $client, User $user) : ?String
+    {
+        if(!$this->accessIsValid($user)){
+            return "Vous ne pouvez pas ajouter de client. Veuillez vérifier que votre abonnement est toujours valide.";
+        }
+
+        $this->removeClient($client);
 
         return null;
     }

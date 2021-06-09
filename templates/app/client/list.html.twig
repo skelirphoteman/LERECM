@@ -1,0 +1,40 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Liste des clients{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <input type="text" id="inputSearchClient">
+            <div class="row">
+                <div class="col-12" align="center">
+                    <div class="spinner-border m-2" id="spinner-list" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <table class="table" id="list_client" data-url="{{ path('app_client_list_api') }}" data-profil="{{ path('app_client_edit', {id: ""}) }}">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom de Famille</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Code Postal</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Entreprise</th>
+                    <th scope="col">Fiche</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('list_client_js') }}
+{% endblock %}

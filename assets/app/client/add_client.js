@@ -1,7 +1,11 @@
 var choice_type = $('#choice_type');
 var div_company = $('#company_row');
+var valeur_choice = $('input[name="add_client[is_company]"]:checked').val();
 
-div_company.hide();
+if(valeur_choice == 1){
+    div_company.hide();
+}
+
 
 $('#add_client_is_company_0').click(function (){
     div_company.show();

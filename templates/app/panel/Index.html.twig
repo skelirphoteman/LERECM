@@ -3,8 +3,59 @@
 {% block title %}Acceuil{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
+            <div class="col-12 col-sm-8">
+                <div class="card p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="card ">
+                                <div class="card-header" align="center">
+                                    Dernier clients ajouté
+                                </div>
+                                <div class="card-body p-2">
+                                    {% if app.user.getCompany.getClients is not null %}
+                                    <table class="table">
+                                        <thead class="table-dark">
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>N° de téléphone</th>
+                                            <th>Fiche</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for client in app.user.getCompany.getClients|reverse|slice(0, 5) %}
+                                            <tr>
+                                                <td>{{ client.getName }}</td>
+                                                <td>{{ client.getSurname }}</td>
+                                                <td>{{ client.getPhone }}</td>
+                                                <td><a href="{{ path('app_client_edit', {id: client.getId}) }}" class="btn btn-secondary btn-sm">Consulter</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer" align="center">
+                                    <a href="{{ path('app_client_add') }}" class="btn btn-outline-success btn-sm">Ajouter un client</a>
+                                    <a href="{{ path('app_client_list') }}" class="btn btn-outline-warning btn-sm">Liste des clients</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="card">
+                    <div class="p-5">
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

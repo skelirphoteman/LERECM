@@ -2,6 +2,9 @@ security:
     encoders:
         App\Domain\User\Entity\User:
             algorithm: auto
+        App\Domain\UserClient\Entity\UserClient:
+            algorithm: auto
+
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -10,6 +13,11 @@ security:
             entity:
                 class: App\Domain\User\Entity\User
                 property: email
+        app_client_provider:
+          entity:
+            class: App\Domain\UserClient\Entity\UserClient
+            property: uuid
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -21,10 +29,20 @@ security:
             guard:
                 authenticators:
                     - App\Http\Security\LoginFormAuthenticator
+                    - App\Http\Security\ClientAuthenticator
+                entry_point: App\Http\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+        client:
+          anonymous: true
+          lazy: true
+          provider: app_client_provider
+          guard:
+            authenticators:
+              - App\Http\Security\ClientAuthenticator
+            entry_point: App\Http\Security\ClientAuthenticator
+          logout:
+            path: app_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
