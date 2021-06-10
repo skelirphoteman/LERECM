@@ -2,8 +2,10 @@
 namespace App\Http\Controller\Client;
 
 use App\Domain\Client\Entity\Client;
+use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
 use App\Infrastructure\Client\ClientService;
+use App\Infrastructure\User\UserClientService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,6 +68,17 @@ class ClientController extends AbstractController
             throw $this->createAccessDeniedException('Vous n\'avez pas accéss à cette page.');
         }
 
+        $userClient = $this->getDoctrine()
+            ->getRepository(UserClient::class)
+            ->findOneByUuid($id->getId());
+
+        $userClientIsCreated = false;
+
+        if($userClient)
+        {
+            $userClientIsCreated = true;
+        }
+
         $formClient = $this->createForm(AddClientType::class, $client);
 
         $formClient->handleRequest($request);
@@ -84,7 +97,8 @@ class ClientController extends AbstractController
 
         return $this->render('app/client/edit.html.twig', [
             'form_client' => $formClient->createView(),
-            'clientId' => $client->getId()
+            'clientId' => $client->getId(),
+            'userClient' => $userClientIsCreated
         ]);
     }
 
@@ -113,6 +127,42 @@ class ClientController extends AbstractController
             return $this->redirectToRoute('app_client_edit', ['id' => $client->getId()]);
         }
 
+    }
+
+    /**
+     * @Route("/generate/account/{id}", name="app_client_generate_account")
+     */
+    public function generateClientAccount(Client $id = null, UserClientService $userClientService)
+    {
+        $client = $id;
+        if(!$client){
+            throw $this->createNotFoundException('Aucun client trouvé');
+        }
+
+        if(!$client->getCompany()->getUsers()->contains($this->getUser()))
+        {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accéss à cette page.');
+        }
+
+        $userClient = $this->getDoctrine()
+            ->getRepository(UserClient::class)
+            ->findOneByUuid($id);
+
+        if($userClient)
+        {
+            $this->addFlash('danger', "Ce client possède déjà un compte.");
+            return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
+        }
+
+        $userClientResponse = $userClientService->createClientAccount($this->getUser(), $client);
+
+        if($userClientResponse){
+            $this->addFlash('danger', $userClientResponse);
+            return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
+        }
+
+        $this->addFlash('success', 'Le compte a bien été crée');
+        return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
     }
 
 

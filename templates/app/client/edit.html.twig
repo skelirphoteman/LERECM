@@ -75,6 +75,14 @@
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Supprimer
                     </button>
+                    {% if not userClient %}
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#generateModale">
+                            Générer un compte client
+                        </button>
+                    {% else %}
+                        <a href="#" class="btn btn-success">Télécharger la fiche de connexion client</a>
+                    {% endif %}
+
                 </div>
 
 
@@ -99,6 +107,25 @@
             </div>
         </div>
     </div>
+    {% if not userClient %}
+    <div class="modal fade" id="generateModale" tabindex="-1" aria-labelledby="exampleModaleLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Générer un compte client</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment générer un compte pour ce client ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a href="{{ path('app_client_generate_account', {id: clientId}) }}" class="btn btn-warning">Générer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     {{ encore_entry_script_tags('add_client_js') }}
 {% endblock %}
