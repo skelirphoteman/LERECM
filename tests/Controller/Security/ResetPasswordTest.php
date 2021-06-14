@@ -58,7 +58,6 @@ class ResetPasswordTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('POST', $this->index, ['email' => 'jean@test.fr']);
-         // Attention à bien récupérer le crawler mis à jour
 
         $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
     }
