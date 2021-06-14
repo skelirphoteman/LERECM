@@ -2,6 +2,7 @@
 
 namespace App\Domain\Company\Entity;
 
+use App\Domain\Client\Entity\Client;
 use App\Domain\Subscription\Entity\Subscription;
 use App\Domain\Company\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,9 +42,15 @@ class Company
      */
     private $user_panel_id;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Client::class, mappedBy="company")
+     */
+    private $clients;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +125,36 @@ class Company
     public function setUserPanelId(int $user_panel_id): self
     {
         $this->user_panel_id = $user_panel_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Client[]
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): self
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients[] = $client;
+            $client->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): self
+    {
+        if ($this->clients->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getCompany() === $this) {
+                $client->setCompany(null);
+            }
+        }
 
         return $this;
     }
