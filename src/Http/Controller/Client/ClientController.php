@@ -2,6 +2,7 @@
 namespace App\Http\Controller\Client;
 
 use App\Domain\Documents\Entity\Invoice;
+use App\Domain\Documents\Entity\Quote;
 use App\Domain\Client\Entity\Client;
 use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
@@ -101,12 +102,16 @@ class ClientController extends AbstractController
         $invoices = $this->getDoctrine()
             ->getRepository(Invoice::class)
             ->findBy(["client" => $client], ["created_at" => "DESC"]);
+        $quotes = $this->getDoctrine()
+            ->getRepository(Quote::class)
+            ->findBy(["client" => $client], ["created_at" => "DESC"]);
 
         return $this->render('app/client/edit.html.twig', [
             'form_client' => $formClient->createView(),
             'client' => $client,
             'userClient' => $userClientIsCreated,
             'invoices' => $invoices,
+            'quotes' => $quotes,
         ]);
     }
 
