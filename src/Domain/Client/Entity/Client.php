@@ -3,6 +3,9 @@
 namespace App\Domain\Client\Entity;
 
 use App\Domain\Client\Repository\ClientRepository;
+use App\Domain\Documents\Entity\Document;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \App\Domain\Company\Entity\Company;
 use \App\Domain\User\Entity\User;
@@ -110,10 +113,16 @@ class Client
      */
     private $company;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="client", orphanRemoval=true)
+     */
+    private $documents;
+
     public function __construct(User $user)
     {
         $this->company = $user->getCompany();
         $this->created_at = new \DateTime('now');
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -333,6 +342,36 @@ class Client
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getClient() === $this) {
+                $document->setClient(null);
+            }
+        }
 
         return $this;
     }
