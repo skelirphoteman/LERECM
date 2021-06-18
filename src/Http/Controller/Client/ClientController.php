@@ -1,11 +1,15 @@
 <?php
 namespace App\Http\Controller\Client;
 
+use App\Domain\Documents\Entity\Invoice;
+use App\Domain\Documents\Entity\Quote;
 use App\Domain\Client\Entity\Client;
 use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
 use App\Infrastructure\Client\ClientService;
 use App\Infrastructure\User\UserClientService;
+use App\Infrastructure\Security\AccessService;
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,17 +60,17 @@ class ClientController extends AbstractController
     /**
      * @Route("/edit/{id}", name="app_client_edit")
      */
-    public function editClient(Client $id = null, Request $request, ClientService $clientService) : Response
+    public function editClient(Client $id = null,
+                               Request $request,
+                               ClientService $clientService,
+                                AccessService $accessService) : Response
     {
         $client = $id;
         if(!$client){
             throw $this->createNotFoundException('Aucun client trouvé');
         }
 
-        if(!$client->getCompany()->getUsers()->contains($this->getUser()))
-        {
-            throw $this->createAccessDeniedException('Vous n\'avez pas accéss à cette page.');
-        }
+        $accessService->companyClientAccess($client);
 
         $userClient = $this->getDoctrine()
             ->getRepository(UserClient::class)
@@ -95,10 +99,19 @@ class ClientController extends AbstractController
             }
         }
 
+        $invoices = $this->getDoctrine()
+            ->getRepository(Invoice::class)
+            ->findBy(["client" => $client], ["created_at" => "DESC"]);
+        $quotes = $this->getDoctrine()
+            ->getRepository(Quote::class)
+            ->findBy(["client" => $client], ["created_at" => "DESC"]);
+
         return $this->render('app/client/edit.html.twig', [
             'form_client' => $formClient->createView(),
-            'clientId' => $client->getId(),
-            'userClient' => $userClientIsCreated
+            'client' => $client,
+            'userClient' => $userClientIsCreated,
+            'invoices' => $invoices,
+            'quotes' => $quotes,
         ]);
     }
 
