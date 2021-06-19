@@ -219,4 +219,5 @@ class ClientController extends AbstractController
         $json = $serializer->serialize($users, 'json');
         return new JsonResponse( $json);
     }
+    
 }
