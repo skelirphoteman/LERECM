@@ -80,7 +80,9 @@
                             Générer un compte client
                         </button>
                     {% else %}
-                        <a href="#" class="btn btn-success">Télécharger la fiche de connexion client</a>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#generateModale">
+                            Regénérer un mot de passe
+                        </button>
                     {% endif %}
 
                 </div>
@@ -128,7 +130,7 @@
                         </table>
                     {% endif %}
                     <div class="p-3" align="center">
-                        <a href="{{ path('app_document_quote_add', {id: client.getId}) }}" class="btn btn-success">Ajouter un devis</a>
+                        <a href="{{ path('app_document_invoice_add', {id: client.getId}) }}" class="btn btn-success">Ajouter une facture</a>
                     </div>
                 </div>
             </div>
@@ -174,18 +176,6 @@
                     </div>                </div>
             </div>
         </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Accordion Item #3
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -205,7 +195,6 @@
             </div>
         </div>
     </div>
-    {% if not userClient %}
     <div class="modal fade" id="generateModale" tabindex="-1" aria-labelledby="exampleModaleLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -214,7 +203,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Voulez-vous vraiment générer un compte pour ce client ?
+                    {% if not userClient %}
+                        Voulez-vous vraiment générer un compte pour ce client ?
+                    {% else %}
+                        Voulez-vous vraiment regénérer un mot de passe pour le compte de ce client ?
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -223,7 +216,7 @@
             </div>
         </div>
     </div>
-    {% endif %}
 
     {{ encore_entry_script_tags('edit_client_js') }}
+    {{ encore_entry_script_tags('add_client_js') }}
 {% endblock %}

@@ -17,9 +17,9 @@ class ClientSecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('client_index');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -28,31 +28,5 @@ class ClientSecurityController extends AbstractController
 
         return $this->render('security/login_client.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
-    /**
-     * @Route("/client/index", name="client_index")
-     */
-    public function index() : Response
-    {
-        return new Response($this->getUser()->getUsername());
-    }
-
-    /**
-     * @Route("/client/create", name="client_create")
-     */
-    public function create(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $client = new UserClient();
-
-        $client->setUuid("1234");
-        $client->addRole('ROLE_CLIENT');
-
-        $client->setPassword($passwordEncoder->encodePassword(
-            $client,
-            "1234"
-        ));
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($client);
-        $em->flush();
-    }
+    
 }

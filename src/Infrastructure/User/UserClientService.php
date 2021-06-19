@@ -43,24 +43,42 @@ class UserClientService
         return $randomString;
     }
 
-    private function insertUserClient($id): String
+    private function insertUserClient(Client $client): UserClient
     {
         $em = $this->entityManager;
-        $client = new UserClient();
-        $client->setUuid($id);
-        $password = $this->generatePassword(25);
-        $client->setPassword($this->passwordEncoder->encodePassword(
-            $client,
+        $userClient = new UserClient();
+        $userClient->setUuid($client->getId());
+        $password = $this->generatePassword();
+        $userClient->setPassword($this->passwordEncoder->encodePassword(
+            $userClient,
             $password
         ));
-        $client->addRole("ROLE_CLIENT");
-        $em->persist($client);
-        //$em->flush();
+        $userClient->addRole("ROLE_CLIENT");
+        $em->persist($userClient);
+        $em->flush();
 
-        return $password;
+        $this->generatePDF($client, $userClient, $password);
+
+        return $userClient;
     }
 
-    private function generatePDF(Client $client, $password)
+    private function updateUserClient(UserClient $userClient, Client $client): UserClient
+    {
+        $em = $this->entityManager;
+        $password = $this->generatePassword();
+        $userClient->setPassword($this->passwordEncoder->encodePassword(
+            $userClient,
+            $password
+        ));
+        $em->persist($userClient);
+        $em->flush();
+
+        $this->generatePDF($client, $userClient, $password);
+
+        return $userClient;
+    }
+
+    private function generatePDF(Client $client, UserClient $userClient, $password)
     {
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -69,7 +87,10 @@ class UserClientService
         $dompdf = new Dompdf($pdfOptions);
 
         $html = $this->twig->render('pdf/client/connexion.html.twig', [
-            'title' => "Welcome to our PDF Test"
+            'userClient' => $userClient,
+            'company' => $client->getCompany(),
+            'client' => $client,
+            'password' => $password,
         ]);
 
         $dompdf->loadHtml($html);
@@ -97,10 +118,18 @@ class UserClientService
         if(!$this->accessIsValid($user)){
             return "Vous ne pouvez pas ajouter de client. Veuillez vérifier que votre abonnement est toujours valide.";
         }
+        $this->insertUserClient($client);
 
-        $password = $this->insertUserClient($client->getId());
+        return null;
+    }
 
-        $this->generatePDF($client, $password);
+    public function updateClientAccount(User $user, Client $client, UserClient $userClient) : ?String
+    {
+
+        if(!$this->accessIsValid($user)){
+            return "Vous ne pouvez pas ajouter de client. Veuillez vérifier que votre abonnement est toujours valide.";
+        }
+        $this->updateUserClient($userClient, $client);
 
         return null;
     }

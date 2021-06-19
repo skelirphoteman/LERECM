@@ -70,8 +70,8 @@ class AddClientType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => [
-                    'Entreprise ' => "0",
-                    'Particulié ' => "1"
+                    'Entreprise ' => "1",
+                    'Particulié ' => "0"
                 ],
                 'required' => true
             ])

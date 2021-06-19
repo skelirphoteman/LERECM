@@ -163,18 +163,23 @@ class ClientController extends AbstractController
 
         if($userClient)
         {
-            $this->addFlash('danger', "Ce client possède déjà un compte.");
-            return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
+            $userClientResponse = $userClientService->updateClientAccount($this->getUser(), $client, $userClient);
+
+            if($userClientResponse){
+                $this->addFlash('danger', $userClientResponse);
+                return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
+            }
+        }else 
+        {
+            $userClientResponse = $userClientService->createClientAccount($this->getUser(), $client);
+
+            if($userClientResponse){
+                $this->addFlash('danger', $userClientResponse);
+                return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
+            }
         }
 
-        $userClientResponse = $userClientService->createClientAccount($this->getUser(), $client);
-
-        if($userClientResponse){
-            $this->addFlash('danger', $userClientResponse);
-            return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
-        }
-
-        $this->addFlash('success', 'Le compte a bien été crée');
+       
         return $this->redirectToRoute('app_client_edit', ["id" => $id->getId()]);
     }
 

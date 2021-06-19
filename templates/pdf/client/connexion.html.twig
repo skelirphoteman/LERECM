@@ -1,10 +1,30 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Title of the PDF</title>
+    <title>Code de connexion</title>
 </head>
 <body>
-<h4>{{ title }}</h4>
-<p>Lorem Ipsum</p>
+<h4>Code de connexion à LERECM</h4>
+<div>
+    <h2>Information entreprise : </h2>
+    <ul>
+        <li>{{ company.getName }}</li>
+    </ul>
+    <h2>Client :</h2>
+    <ul>
+        <li>Nom : {{ client.getSurname }}</li>
+        <li>Prénom : {{ client.getName }}</li>
+        <li>Date de naissance : {{ client.getBirthday|date('j/m/Y') }}</li>
+        {% if client.getIsCompany %}
+            <li>Entreprise : {{ client.getCompanyName }}</li>
+            <li>N° Siret : {{ client.getSiret }}</li>
+        {% endif %}
+    </ul>
+    <h2>Information de connexion </h2>
+    <ul>
+        <li>Identifiant : {{ userClient.getUuid }}</li>
+        <li>Mot de passe : {{ password }}</li>
+    </ul>
+</div>
 </body>
 </html>

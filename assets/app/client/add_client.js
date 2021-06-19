@@ -2,7 +2,7 @@ var choice_type = $('#choice_type');
 var div_company = $('#company_row');
 var valeur_choice = $('input[name="add_client[is_company]"]:checked').val();
 
-if(valeur_choice == 1){
+if(valeur_choice == 0){
     div_company.hide();
 }
 
