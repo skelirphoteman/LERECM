@@ -20,6 +20,13 @@ class UserService
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    private function accessIsValid(User $user) : bool
+    {
+        if(!$user->getCompany()->getSubscription()->subIsValid()) return false;
+
+        return true;
+    }
+
     private function generatePassword($number = 10): string
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-?';
@@ -31,6 +38,26 @@ class UserService
 
         return $randomString;
     }
+    
+    private function emailExist($email) : bool
+    {
+        $em = $this->entityManager;
+
+        $user_find = $em->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+
+        if(empty($user_find)){
+            return false;
+        }
+
+        return true;
+    }
+
+    private function sendEmail($password) : void
+    {
+
+    }
+
 
     public function createUserFromSkelirPanel($email) : User
     {
@@ -52,6 +79,24 @@ class UserService
         return $user;
     }
 
+    public function createUser($user) : User
+    {
+        $user->setCreatedAt(new \DateTime('now'));
+        $user->setState(1);
+        $password = $this->generatePassword(15);
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $password
+        ));
+        $em = $this->entityManager;
+        $em->persist($user);
+        //$em->flush();
+
+        $this->sendEmail($password);
+
+        return $user;
+    }
+
     public function resetPassword(String $new_password, User $user) : void
     {
         $user->setPassword($this->passwordEncoder->encodePassword(
@@ -62,5 +107,21 @@ class UserService
         $em = $this->entityManager;
         $em->persist($user);
         $em->flush();
+    }
+
+    public function createAccount($user, $admin) : ?String
+    {
+        if(!$this->accessIsValid($admin)){
+            return "Vous ne pouvez pas ajouter de facture. Veuillez vérifier que votre abonnement est toujours valide.";
+        }
+
+        if($this->emailExist($user->getEmail()))
+        {
+            return "Cette adresse email appartient déjà à un compte.";
+        }
+
+        $this->createUser($user);
+
+        return null;
     }
 }

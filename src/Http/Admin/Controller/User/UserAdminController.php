@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Domain\User\Entity\User;
 use App\Http\Admin\Form\AddUserType;
+use App\Infrastructure\User\UserService;
 
 
 /**
@@ -20,7 +21,7 @@ class UserAdminController extends AbstractController
     /**
      * @Route("/add", name="admin_client_add")
      */
-    public function addUser(Request $request) :Response
+    public function addUser(Request $request, UserService $userService) :Response
     {
         $user = new User();
 
@@ -31,14 +32,14 @@ class UserAdminController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             $user = $formUser->getData();
 
-            /*$responseClient = $clientService->addClient($client, $this->getUser());
+            $responseUser = $userService->createAccount($user, $this->getUser());
 
-            if(!$responseClient){
-                $this->addFlash('success', 'Le client a bien été ajouté.');
+            if(!$responseUser){
+                $this->addFlash('success', 'Le compte utilisateur à bien été crée.');
                 return $this->redirectToRoute('app_index');
             }else{
-                $this->addFlash('danger', $responseClient);
-            }*/
+                $this->addFlash('danger', $responseUser);
+            }
         }
         return $this->render('admin/user/add.html.twig', [
             'form_user' => $formUser->createView(),
