@@ -95,18 +95,6 @@ abstract class Document
         return $this;
     }
 
-    public function getCreatedFor(): ?User
-    {
-        return $this->created_for;
-    }
-
-    public function setCreatedFor(?User $created_for): self
-    {
-        $this->created_for = $created_for;
-
-        return $this;
-    }
-
     public function getClient(): ?Client
     {
         return $this->client;
