@@ -1,0 +1,222 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Fiche Client{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_client) }}
+                {{ form_errors(form_client) }}
+                <h2 class="p-2"> Informations importantes :</h2>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-4 mt-2">
+                        {{ form_row(form_client.surname) }}
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4 mt-2">
+                        {{ form_row(form_client.name) }}
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 mt-2">
+                        {{ form_row(form_client.birthday) }}
+                    </div>
+                </div>
+                <h2 class="p-2"> Coordonnées :</h2>
+                <div class="row">
+                    <div class="col-12 col-sm-6 mt-2">
+                        {{ form_row(form_client.phone) }}
+                    </div>
+                    <div class="col-12 col-sm-6 mt-2">
+                        {{ form_row(form_client.home_phone) }}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{ form_row(form_client.email) }}
+                    </div>
+                </div>
+                <h2 class="p-2"> Localisation :</h2>
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        {{ form_row(form_client.avenue) }}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_row(form_client.postal_code) }}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_row(form_client.city) }}
+                    </div>
+                    <div class="col-12 col-sm-4 mt-2">
+                        {{ form_row(form_client.country) }}
+                    </div>
+                </div>
+                <div class="p-3">
+                    {{ form_row(form_client.is_company) }}
+                </div>
+                <div id="company_row">
+                    <h2 class="p-2">Informations Entreprise :</h2>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mt-2">
+                            {{ form_row(form_client.company_name) }}
+                        </div>
+                        <div class="col-12 col-sm-6 mt-2">
+                            {{ form_row(form_client.siret) }}
+                        </div>
+                        <div class="col-12 col-sm-6 mt-2">
+                            {{ form_row(form_client.ape_code) }}
+                        </div>
+                        <div class="col-12 col-sm-6 mt-2">
+                            {{ form_row(form_client.tva_code) }}
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Informations complémentaires : </h2>
+                {{ form_row(form_client.note) }}
+
+                <div class="p-2" align="center">
+                    <input type="submit" value="Modifier le client" class="btn btn-primary" >
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Supprimer
+                    </button>
+                    {% if not userClient %}
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#generateModale">
+                            Générer un compte client
+                        </button>
+                    {% else %}
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#generateModale">
+                            Regénérer un mot de passe
+                        </button>
+                    {% endif %}
+
+                </div>
+
+
+            {{ form_end(form_client) }}
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Facture(s)
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% if invoices is empty %}
+                        <strong>Aucune facture crée pour ce client.</strong>
+                    {% else %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Consulter</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for invoice in invoices %}
+                                <tr>
+                                    <th scope="row">{{ invoice.getId }}</th>
+                                    <td>{{ invoice.getName }}</td>
+                                    <td>{{ invoice.getPrice }}€</td>
+                                    <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
+                                    <td><a href="{{ path('app_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                    <td><a href="{{ path('app_document_invoice_delete', {invoice: invoice.getId}) }}" class="btn btn-danger delete_invoice">Supprimer</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                    <div class="p-3" align="center">
+                        <a href="{{ path('app_document_invoice_add', {id: client.getId}) }}" class="btn btn-success">Ajouter une facture</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Devi(s)
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% if quotes is empty %}
+                        <strong>Aucun Devis crée pour ce client.</strong>
+                    {% else %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Consulter</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for quote in quotes %}
+                                <tr>
+                                    <th scope="row">{{ quote.getId }}</th>
+                                    <td>{{ quote.getName }}</td>
+                                    <td>{{ quote.getPrice }}€</td>
+                                    <td>{{ quote.getCreatedAt|date('j/m/Y') }}</td>
+                                    <td><a href="{{ path('app_document_quote_view', {quote: quote.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                    <td><a href="{{ path('app_document_quote_delete', {quote: quote.getId}) }}" class="btn btn-danger delete_invoice">Supprimer</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                    <div class="p-3" align="center">
+                        <a href="{{ path('app_document_quote_add', {id: client.getId}) }}" class="btn btn-success">Ajouter un devis</a>
+                    </div>                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Demande de confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Voulez-vous vraiment supprimer ce client ? Aucun retour en arrière ne sera possible...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a href="{{ path('app_client_delete', {id: client.getId}) }}" class="btn btn-danger">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="generateModale" tabindex="-1" aria-labelledby="exampleModaleLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Générer un compte client</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if not userClient %}
+                        Voulez-vous vraiment générer un compte pour ce client ?
+                    {% else %}
+                        Voulez-vous vraiment regénérer un mot de passe pour le compte de ce client ?
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a href="{{ path('app_client_generate_account', {id: client.getId}) }}" class="btn btn-warning">Générer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('edit_client_js') }}
+    {{ encore_entry_script_tags('add_client_js') }}
+{% endblock %}

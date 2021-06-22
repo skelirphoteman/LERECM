@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Client</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('base') }}
+
+    {% endblock %}
+
+    {% block javascript %}
+    {{ encore_entry_script_tags('basejs') }}
+{% endblock %}
+
+
+</head>
+<body>
+<div class="container mt-2">
+    <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header" align="center">
+                        <h1>Vos informations enregistrer par l'entreprise</h1>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Informations importantes :</h3>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Nom : <strong>{{ client.getSurname }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Prénom : <strong>{{ client.getName }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Anniversaire : <strong>{{ client.getBirthday|date('d/m/Y') }}</strong></div>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Coordonnées :</h3>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Tél. : <strong>{{ client.getPhone }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Fixe : <strong>{{ client.getHomePhone }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Email : <strong>{{ client.getEmail }}</strong></div>
+                            </div>
+                        </div>
+                        <h3 class="card-title">Localisation :</h3>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 mt-2">Rue : <strong>{{ client.getAvenue }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Code Postale : <strong>{{ client.getPostalCode }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Ville : <strong>{{ client.getCity }}</strong></div>
+                                <div class="col-12 col-sm-6 col-md-4 mt-2">Pays : <strong>{{ client.Country }}</strong></div>
+                            </div>
+                        </div>
+                        {% if client.getIsCompany %}
+                            <h3 class="card-title">Informations sur l'entreprise :</h3>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 mt-2">Dénomination Social : <strong>{{ client.getCompanyName }}</strong></div>
+                                    <div class="col-12 col-sm-6 mt-2">N° de Siret : <strong>{{ client.getSiret }}</strong></div>
+                                    <div class="col-12 col-sm-6 mt-2">Code APE : <strong>{{ client.getApeCode }}</strong></div>
+                                    <div class="col-12 col-sm-6 mt-2">N° de TVA : <strong>{{ client.getTVACode }}</strong></div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="container-fluid p-5">
+    <div class="row">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Facture(s)
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% if invoices is empty %}
+                            <strong>Aucune facture disponible.</strong>
+                        {% else %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Consulter</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for invoice in invoices %}
+                                    <tr>
+                                        <td>{{ invoice.getName }}</td>
+                                        <td>{{ invoice.getPrice }}€</td>
+                                        <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
+                                        <td><a href="{{ path('client_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Devi(s)
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% if quotes is empty %}
+                            <strong>Aucun Devis disponible.</strong>
+                        {% else %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Consulter</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for quote in quotes %}
+                                    <tr>
+                                        <td>{{ quote.getName }}</td>
+                                        <td>{{ quote.getPrice }}€</td>
+                                        <td>{{ quote.getCreatedAt|date('j/m/Y') }}</td>
+                                        <td><a href="{{ path('client_document_quote_view', {quote: quote.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    {{ encore_entry_script_tags('basejs') }}
+{% endblock %}
+</body>
+</html>
