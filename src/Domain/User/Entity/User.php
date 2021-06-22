@@ -234,5 +234,15 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function isAdmin() : bool
+    {
+        foreach($this->roles as $role)
+        {
+            if($role == "ROLE_ADMIN") return true;
+        }
+
+        return false;
+    }
     
 }

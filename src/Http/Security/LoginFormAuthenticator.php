@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -70,7 +71,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $user = $userProvider->loadUserByUsername($credentials['email']);
 
         if (!$user) {
-            throw new UsernameNotFoundException('Email could not be found.');
+            throw new UsernameNotFoundException('Cette adresse mail ne correspond à aucun compte.');
         }
 
         return $user;
@@ -78,7 +79,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if(!$this->passwordEncoder->isPasswordValid($user, $credentials['password']))
+        {
+            throw new CustomUserMessageAuthenticationException(
+                'La combinaison email/mot de passe ne fonctionne pas.'
+            );
+        }
+        if($user->getCompany() == null)
+        {
+            throw new CustomUserMessageAuthenticationException(
+                'Votre compte à bien été crée mais n\'est pas encore actif. Veuillez contacter notre service pour plus de renseignement.'
+            );
+        }
+
+
+        return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)

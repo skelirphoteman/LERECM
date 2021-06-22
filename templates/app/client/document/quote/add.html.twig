@@ -1,0 +1,35 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Ajouter un Devis {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_quote) }}
+            {{ form_errors(form_quote) }}
+            <h2 class="p-2"> Ajouter un devis au client {% if client.getSurname is not empty or client.getName is not empty %} [{{ client.getSurname}} {{ client.getName }} {% endif %}] :</h2>
+            <div class="row">
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_quote.name) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_quote.price) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_quote.state) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_quote.filename) }}
+                </div>
+            </div>
+
+            <div class="p-2" align="center">
+                <input type="submit" value="Ajouter au client" class="btn btn-primary">
+            </div>
+
+
+            {{ form_end(form_quote) }}
+        </div>
+    </div>
+
+{% endblock %}
