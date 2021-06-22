@@ -5,7 +5,41 @@
 {% block body %}
     <div class="container">
         <div class="row">
+            {% if users is not empty %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Entreprise</th>
+                        <th scope="col">Fin du contrat</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <th scope="row">{{ user.getId }}</th>
+                            <td>{{ user.getSurname }}</td>
+                            <td>{{ user.getName }}</td>
+                            <td>{{ user.getEmail }}</td>
+                            {% if user.getCompany is null %}
+                                <td></td>
+                                <td></td>
+                                <td><a href="{{ path('admin_subscription_add', {user : user.getId}) }}" class="btn btn-warning">Créer un contrat</a></td>
+                            {% else %}
+                                <td>{{ user.getCompany.getName }}</td>
+                                <td>{{ user.getCompany.getSubscription.getEndAt|date('j/m/Y') }}</td>
+                                <td><a href="{{ path('admin_subscription_edit', {subscription : user.getCompany.getSubscription.getId}) }}" class="btn btn-primary">Modifier contrat</td>
 
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 

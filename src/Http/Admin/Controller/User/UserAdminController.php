@@ -32,7 +32,7 @@ class UserAdminController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             $user = $formUser->getData();
 
-            $responseUser = $userService->createAccount($user, $this->getUser());
+            $responseUser = $userService->createAccount($user);
 
             if(!$responseUser){
                 $this->addFlash('success', 'Le compte utilisateur à bien été crée.');
