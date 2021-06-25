@@ -5,10 +5,97 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-12 col-sm-6">
-                <a href="{{ path('app_login') }}">Espace entreprise</a>
-            </div>
-            <div class="col-12 col-sm-6"><a href="{{ path('client_login') }}">Espace Client</a></div>
-        </div>
+			<div class="col-12" align="center">
+				<h1>Espace de connexion au logiciel L.E.R.E.C.M</h1>
+			</div>
+			<!-- Informations -->
+			<div class="col-12">
+				<p>L.E.R.E.C.M est un logiciel en ligne accessible depuis tous supports disposant d'une connexion internet et d'un navigateur web.
+				<strong>L.E.R.E.C.M</strong> améliore et facilite la relation entre les entreprises et leurs clients. Les clients des entreprises utilisant <strong>L.E.R.E.C.M</strong> pourront consulter tous les 
+				documents que l'entreprises aura à leurs transmettent.</p>
+
+				<br>
+
+				<p align="center" class="alert alert-warning">Si vous êtes client d'une entreprise utilisant nos services, veuillez vous rapprocher de celle-ci pour recevoir vos informations de connexion.</p>
+			</div>
+			<!-- Esapce Entreprise -->
+			<div class="col-12 col-sm-12 col-md-6">
+				<div class="card border-primary m-2">
+				  <div class="card-header border-primary" align="center">
+				    Connexion à l'espace entreprise
+				  </div>
+				  <div class="card-body" >
+				  	Afin d'acceder au logiciel L.E.R.E.C.M, veuillez vous rendre dans la page de connexion 
+				  	dédié aux entreprises grâce au lien ci-dessous. Votre compte doit être activé par notre équipe.
+				  	<br>
+				  	<div align="right">
+				  		<a href="{{ path('app_login') }}" class="btn btn-outline-primary">Compte entreprise</a>
+				  	</div>
+				  </div>
+				</div>
+			</div>
+			<!-- Esapce Client -->
+			<div class="col-12 col-sm-12 col-md-6">
+				<div class="card border-success m-2">
+				  <div class="card-header border-success" align="center">
+				    Connexion à l'espace client
+				  </div>
+				  <div class="card-body" align="right">
+				  	Si vous disposez de vos informations de connexion pour consulter votre compte client, 
+				  	veuillez vous rendre dans l'interface de connxion dédié aux client via le lien ci-dessous.
+				  	<br>
+				  	<div align="left">
+				  		<a href="{{ path('client_login') }}" class="btn btn-outline-success">Compte client</a>
+				  	</div>
+				  </div>
+				</div>
+			</div>
+
+			<!-- Questions / Réponses -->
+			<div class="col-12 m-5" align="center">
+				<h2>Questions / Réponses</h2>
+			</div>
+			<div class="accordion" id="accordionQuestions">
+			  <div class="accordion-item">
+			    <h2 class="accordion-header" id="headingOne">
+			      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+			        <strong>Je suis interéssé pour tester L.E.R.E.C.M, puis-je avoir un compte démo ?</strong>
+			      </button>
+			    </h2>
+			    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionQuestions">
+			      <div class="accordion-body">
+			      	Nous pouvons vous faire tester les services que propose <strong>L.E.R.E.C.M</strong>. Vous disposerais d'une periode de 15 jours pour tester sans contraintes nos services et ainsi booster votre relation client. 
+			      	N'attendez plus ! Contactez notre équipes en remplissant le formulaire disponible via le lien ci-dessous.
+			      	<br>
+			      	<div align="center" class="p-4">
+			      		<a href="#" class="btn btn-outline-primary">Ouvrir un compte démo</a> 
+			      	</div>
+			      	<br>
+			      	N'attendez plus pour offrir le  meilleur service à vos clients !
+			      </div>
+			    </div>
+			  </div>
+			  <div class="accordion-item">
+			    <h2 class="accordion-header" id="headingTwo">
+			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+			        <strong>J'ai perdu mes informations de connexion, comment les retrouver ?</strong>
+			      </button>
+			    </h2>
+			    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionQuestions">
+			      <div class="accordion-body">
+			      	<h3>Compte entreprise :</h3>
+
+			      	Si vous avez perdu votre mot de passe, veuillez vous rendre <a href="">ici</a> et suivez la procédure indiqué pour réinitialiser votre mot de passe.
+
+			      	<br>
+
+			      	<h3>Compte client :</h3>
+			      	Pour garantir la sécurité de vos informations, vous devez contactez l'entreprise qui vous a fourni vos informations de connexion et leur demander de
+			      	re-générer vos informations de connexion.
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			</div>
     </div>
 {% endblock %}
