@@ -42,7 +42,7 @@ class SubscriptionService
 
     private function createCompany(Subscription $subscription, User $user) : Company
     {
-        $company = new Company();
+        $company = new Company();;
         $company->addUser($user);
         $company->setSubscription($subscription);
 
