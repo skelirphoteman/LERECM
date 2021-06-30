@@ -1,1 +1,36 @@
-bonjour
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}Bienvenue a marseille{% endblock %}
+
+{% block header %}
+    <tr>
+        <td class="h2">
+            Bienvenue dans L.E.R.E.C.M
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            A votre demande, nous vous avons générer un compte entreprise vous permettant de vous connecter
+            à notre logiciel de relation client. Vous trouverais donc vos informations de connexion plus bas dans ce mail. Nous vous invitons à changer dès maintenant votre mot de passe.
+        </td>
+    </tr>
+{% endblock %}
+
+{% block body %}
+    <tr>
+        <td class="h2" align="center">
+            Informations de connexion
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            <ul>
+                <li>Adresse E-Mail : <strong>{{ user_email }}</strong></li>
+                <li>Mot de passe : <strong>{{ user_password }}</strong></li>
+            </ul>
+            <div align="center">
+                <a href="" class="BUTTON_WDO">Changer mon mot de passe</a>
+            </div>
+        </td>
+    </tr>
+{% endblock %}
