@@ -29,3 +29,7 @@ services:
     App\Infrastructure\FileUploader\FileUploader:
       arguments:
         $targetDirectory: '%document_directory%'
+
+    App\Infrastructure\SkelirMailer\CreateUserSkelirMailer:
+
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $createUserMailer: '@App\Infrastructure\SkelirMailer\CreateUserSkelirMailer'

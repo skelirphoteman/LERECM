@@ -10,21 +10,23 @@ use Symfony\Component\Mime\Message;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Mime\Email;
 
+use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
+
 class UserService
 {
     private $entityManager;
 
     private $passwordEncoder;
 
-    private $mailer;
+    private $createUserMailer;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 UserPasswordEncoderInterface $passwordEncoder,
-                                MailerInterface $mailer)
+                                SkelirMailerInterface $createUserMailer)
     {
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
-        $this->mailer = $mailer;
+        $this->createUserMailer = $createUserMailer;
     }
 
     private function accessIsValid(User $user) : bool
@@ -60,7 +62,7 @@ class UserService
         return true;
     }
 
-    private function sendEmail(User $user, $password): void
+    /*private function sendEmail(User $user, $password): void
     {
         $email = (new Email())
             ->from('contact@skelirscreation.fr')
@@ -80,7 +82,7 @@ class UserService
             ');
 
         $this->mailer->send($email);
-    }
+    }*/
 
 
     public function createUserFromSkelirPanel($email) : User
@@ -114,9 +116,13 @@ class UserService
         ));
         $em = $this->entityManager;
         $em->persist($user);
-        $em->flush();
+        //$em->flush();
 
-        $this->sendEmail($user, $password);
+        //$this->sendEmail($user, $password);
+
+        $this->createUserMailer->send($user->getEmail(), [
+            'password' => $password
+        ]);
 
         return $user;
     }
