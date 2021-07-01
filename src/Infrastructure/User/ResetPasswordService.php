@@ -7,6 +7,7 @@ use App\Domain\User\Entity\User;
 use App\Domain\User\Entity\ResetPassword;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\Date;
+use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
 
 class ResetPasswordService
 {
@@ -14,11 +15,20 @@ class ResetPasswordService
 
     private $userService;
 
+    private $resetPasswordMailer;
+
+    private $confirmResetPasswordMailer;
+
     public function __construct(EntityManagerInterface $entityManager,
-                                UserService $userService)
+                                UserService $userService,
+                                SkelirMailerInterface $resetPasswordMailer,
+                                SkelirMailerInterface $confirmResetPasswordMailer)
     {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
+        $this->resetPasswordMailer = $resetPasswordMailer;
+        $this->confirmResetPasswordMailer = $confirmResetPasswordMailer;
+
     }
 
     private function findUser($email) : ?User
@@ -52,21 +62,31 @@ class ResetPasswordService
 
         $resetPassword->setUser($user);
         $resetPassword->setCreatedAt(new \DateTime('now'));
-        $resetPassword->setToken($this->generateToken());
+        $token = $this->generateToken();
+        $resetPassword->setToken($token);
         $resetPassword->setState(0);
 
         $this->entityManager->persist($resetPassword);
         $this->entityManager->flush();
+
+        $this->resetPasswordMailer->send($user->getEmail(), [
+            'reset_token' => $token
+        ]);
     }
 
     private function updateResetPassword($resetPassword){
 
         $resetPassword->setCreatedAt(new \DateTime('now'));
-        $resetPassword->setToken($this->generateToken());
+        $token = $this->generateToken();
+        $resetPassword->setToken($token);
         $resetPassword->setState(0);
 
         $this->entityManager->persist($resetPassword);
         $this->entityManager->flush();
+
+        $this->resetPasswordMailer->send($resetPassword->getUser()->getEmail(), [
+            'reset_token' => $token
+        ]);
     }
 
     private function dateIsValid($date) : bool
@@ -84,6 +104,9 @@ class ResetPasswordService
 
         $this->entityManager->persist($resetPassword);
         $this->entityManager->flush();
+
+
+        $this->confirmResetPasswordMailer->send($resetPassword->getUser()->getEmail(), []);
     }
 
     public function createToken($email) : ?String

@@ -1,0 +1,42 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}Confirmation de réinitilisation de votre mot de passe{% endblock %}
+
+{% block header %}
+    <tr>
+        <td class="h2">
+            Création de votre compte client
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            Bonjour, <strong>{{ company_name }}</strong> utilise le logiciel <strong>L.E.R.E.C.M</strong> pour gérer son fichier client. Un de nos service est de proposé à <strong>G.P.C</strong> de
+            générer des comptes pour leurs client afin de facilité leur relation. Vous disposez à partir de maintenant d'un compte client.
+            Vous pourrez visualisez toutes factures et devis que <strong>{{ company_name }}</strong> aura à vous transmettre. Vous trouverais en piece jointe un pdf avec vos informations de connexion.
+            Ce document est à garder précieusement.
+            <br>
+            Nous vous rassurons, seul vous et <strong>{{ company_name }}</strong> pourrai visualiser vos documents.
+        </td>
+    </tr>
+{% endblock %}
+
+{% block body %}
+    <tr>
+        <td class="h2" align="center">
+            Informations de {{ company_name }}
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            <ul>
+                <li>Nom : <strong>{{ company_name }}</strong></li>
+                <li>N° de siret : <strong>{{ company_siret }}</strong></li>
+                <li>N° de tél. : <strong>{{ company_phone }}</strong></li>
+            </ul>
+            <div align="center">
+                <a href="{{ absolute_url(path('client_login')) }}" class="BUTTON_WDO">Se connecter à mon espace</a>
+            </div>
+        </td>
+    </tr>
+    </tr>
+{% endblock %}

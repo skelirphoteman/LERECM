@@ -6,25 +6,34 @@ use App\Domain\Subscription\Entity\Subscription;
 use App\Domain\Company\Entity\Company;
 use App\Domain\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
 
 class SubscriptionService
 {
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private $createSubscriptionMailer;
+
+    public function __construct(EntityManagerInterface $entityManager,
+                                SkelirMailerInterface $createSubscriptionMailer)
     {
         $this->entityManager = $entityManager;
+        $this->createSubscriptionMailer = $createSubscriptionMailer;
     }
 
-    private function addSubscription(Company $company, Subscription $subscription)
+    private function addSubscription(Company $company, Subscription $subscription, User $user)
     {
         $em = $this->entityManager;
         $em->persist($company);
         $em->persist($subscription);
         $em->flush();
+
+        $this->createSubscriptionMailer->send($user->getEmail(), [
+            'subscription_endat' => $subscription->getEndAt()->format("j/m/Y")
+        ]);
     }
 
-    private function updateSubscription(Subscription $subscription)
+    private function updateSubscription(Subscription $subscription, User $user)
     {
         $em = $this->entityManager;
         $em->persist($subscription);
@@ -73,7 +82,7 @@ class SubscriptionService
 
         $company = $this->createCompany($subscription, $user);
 
-        $this->addSubscription($company, $subscription);
+        $this->addSubscription($company, $subscription, $user);
         return null;
     }
 

@@ -29,3 +29,26 @@ services:
     App\Infrastructure\FileUploader\FileUploader:
       arguments:
         $targetDirectory: '%document_directory%'
+
+
+    #SKELIR MAILER
+    App\Infrastructure\SkelirMailer\CreateUserSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
+    App\Infrastructure\SkelirMailer\ResetPasswordSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
+    App\Infrastructure\SkelirMailer\ConfirmResetPasswordSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
+    App\Infrastructure\SkelirMailer\CreateSubscriptionSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $createUserMailer: '@App\Infrastructure\SkelirMailer\CreateUserSkelirMailer'
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $resetPasswordMailer: '@App\Infrastructure\SkelirMailer\ResetPasswordSkelirMailer'
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $confirmResetPasswordMailer: '@App\Infrastructure\SkelirMailer\ConfirmResetPasswordSkelirMailer'
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $createSubscriptionMailer: '@App\Infrastructure\SkelirMailer\CreateSubscriptionSkelirMailer'

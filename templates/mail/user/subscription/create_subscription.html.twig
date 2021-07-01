@@ -1,0 +1,36 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}Bienvenue a marseille{% endblock %}
+
+{% block header %}
+    <tr>
+        <td class="h2">
+            Création de votre abonnement
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            Nous avons le plaisir de vous informer que nous vous avons activé votre abonnement au logiciel <strong>L.E.R.E.C.M</strong>. Veuillez prendre
+            connaissance des informations importantes de votre abonnement ci-dessous. Si vous constatez une erreur veuillez contactez notre service.
+        </td>
+    </tr>
+{% endblock %}
+
+{% block body %}
+    <tr>
+        <td class="h2" align="center">
+            Informations de votre abonnement
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            <ul>
+                <li>Fin de votre abonnement : <strong>{{ subscription_endat }}</strong></li>
+            </ul>
+            Dès votre première connexion vous serez invité à complété quelques informations concernant votre entreprise.
+            <div align="center">
+                <a href="{{ absolute_url(path('app_login')) }}" class="BUTTON_WDO">Se connecter</a>
+            </div>
+        </td>
+    </tr>
+{% endblock %}

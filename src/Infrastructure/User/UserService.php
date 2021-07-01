@@ -10,21 +10,23 @@ use Symfony\Component\Mime\Message;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Mime\Email;
 
+use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
+
 class UserService
 {
     private $entityManager;
 
     private $passwordEncoder;
 
-    private $mailer;
+    private $createUserMailer;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 UserPasswordEncoderInterface $passwordEncoder,
-                                MailerInterface $mailer)
+                                SkelirMailerInterface $createUserMailer)
     {
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
-        $this->mailer = $mailer;
+        $this->createUserMailer = $createUserMailer;
     }
 
     private function accessIsValid(User $user) : bool
@@ -60,29 +62,6 @@ class UserService
         return true;
     }
 
-    private function sendEmail(User $user, $password): void
-    {
-        $email = (new Email())
-            ->from('contact@skelirscreation.fr')
-            ->to($user->getEmail() )
-            ->subject('Création de votre epace client')
-            ->html('
-                <h1>Bienvenue chez Skelir\'s Creation !</h1>
-                <p>Nous avons le plaisir de vous informer que nous vous avons crée votre espace personnelle sur notre site de gestion client.</p>
-                <p>Vous pourrez retrouver tous les abonnements auxquels vous avez souscrit chez nous. De plus, vous pourrez retrouver tous documents important que nous devons vous faire parvenir.</p>
-                <h2>Informations de connexions</h2>
-                <p>Voici ci-dessous vos informations de connexion. Pour la sécurité de votre compte, lors de votre 1ère connexion nous vous inviterons à changer votre mot de passe.</p>
-                <ul>
-                    <li> Adresse mail : ' . $user->getEmail() .' </li>
-                    <li> Mot de passe : ' . $password .' </li>
-                </ul>            
-                <p>Vous pouvez vous connecter dès maintenant ici <a href="http://localhost:5000/"></a></p>
-            ');
-
-        $this->mailer->send($email);
-    }
-
-
     public function createUserFromSkelirPanel($email) : User
     {
             $user = new User();
@@ -115,8 +94,10 @@ class UserService
         $em = $this->entityManager;
         $em->persist($user);
         $em->flush();
-
-        $this->sendEmail($user, $password);
+        $this->createUserMailer->send($user->getEmail(), [
+            'user_email' => $user->getEmail(),
+            'user_password' => $password
+        ]);
 
         return $user;
     }
