@@ -3,7 +3,11 @@
 namespace App\Domain\User\Entity;
 
 use App\Domain\Company\Entity\Company;
+use App\Domain\UserSupport\Entity\SupportTicket;
+use App\Domain\UserSupport\Entity\SupportTicketMessage;
 use App\Domain\User\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -64,6 +68,22 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="users")
      */
     private $company;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SupportTicket::class, mappedBy="created_by")
+     */
+    private $supportTickets;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SupportTicketMessage::class, mappedBy="created_by")
+     */
+    private $supportTicketMessages;
+
+    public function __construct()
+    {
+        $this->supportTickets = new ArrayCollection();
+        $this->supportTicketMessages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -243,6 +263,66 @@ class User implements UserInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return Collection|SupportTicket[]
+     */
+    public function getSupportTickets(): Collection
+    {
+        return $this->supportTickets;
+    }
+
+    public function addSupportTicket(SupportTicket $supportTicket): self
+    {
+        if (!$this->supportTickets->contains($supportTicket)) {
+            $this->supportTickets[] = $supportTicket;
+            $supportTicket->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportTicket(SupportTicket $supportTicket): self
+    {
+        if ($this->supportTickets->removeElement($supportTicket)) {
+            // set the owning side to null (unless already changed)
+            if ($supportTicket->getCreatedBy() === $this) {
+                $supportTicket->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SupportTicketMessage[]
+     */
+    public function getSupportTicketMessages(): Collection
+    {
+        return $this->supportTicketMessages;
+    }
+
+    public function addSupportTicketMessage(SupportTicketMessage $supportTicketMessage): self
+    {
+        if (!$this->supportTicketMessages->contains($supportTicketMessage)) {
+            $this->supportTicketMessages[] = $supportTicketMessage;
+            $supportTicketMessage->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportTicketMessage(SupportTicketMessage $supportTicketMessage): self
+    {
+        if ($this->supportTicketMessages->removeElement($supportTicketMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($supportTicketMessage->getCreatedBy() === $this) {
+                $supportTicketMessage->setCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
     
 }

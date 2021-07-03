@@ -5,6 +5,7 @@ namespace App\Domain\Company\Entity;
 use App\Domain\Client\Entity\Client;
 use App\Domain\Subscription\Entity\Subscription;
 use App\Domain\Company\Repository\CompanyRepository;
+use App\Domain\UserSupport\Entity\SupportTicket;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -47,10 +48,16 @@ class Company
      */
     private $clients;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SupportTicket::class, mappedBy="company")
+     */
+    private $supportTickets;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->supportTickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,6 +160,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($client->getCompany() === $this) {
                 $client->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SupportTicket[]
+     */
+    public function getSupportTickets(): Collection
+    {
+        return $this->supportTickets;
+    }
+
+    public function addSupportTicket(SupportTicket $supportTicket): self
+    {
+        if (!$this->supportTickets->contains($supportTicket)) {
+            $this->supportTickets[] = $supportTicket;
+            $supportTicket->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportTicket(SupportTicket $supportTicket): self
+    {
+        if ($this->supportTickets->removeElement($supportTicket)) {
+            // set the owning side to null (unless already changed)
+            if ($supportTicket->getCompany() === $this) {
+                $supportTicket->setCompany(null);
             }
         }
 

@@ -48,7 +48,12 @@ services:
       arguments:
         $env: '%env(APP_SKELIR_ENV)%'
 
+    App\Infrastructure\SkelirMailer\AdminCreateSupportTicketSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $createUserMailer: '@App\Infrastructure\SkelirMailer\CreateUserSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $resetPasswordMailer: '@App\Infrastructure\SkelirMailer\ResetPasswordSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $confirmResetPasswordMailer: '@App\Infrastructure\SkelirMailer\ConfirmResetPasswordSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $createSubscriptionMailer: '@App\Infrastructure\SkelirMailer\CreateSubscriptionSkelirMailer'
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $adminCreateSupportTicket: '@App\Infrastructure\SkelirMailer\AdminCreateSupportTicketSkelirMailer'

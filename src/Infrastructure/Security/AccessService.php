@@ -24,4 +24,9 @@ class AccessService
             throw new AccessDeniedException('Vous n\'avez pas accéss à cette page.');
         }
     }
+
+    public function subscriptionIsValid()
+    {
+
+    }
 }

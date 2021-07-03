@@ -1,0 +1,35 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Liste des Tickets{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            {% if supportTickets is not empty %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Objet</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Voir la demande</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for supportTicket in supportTickets %}
+                        <tr>
+                            <th scope="row">{{ supportTicket.getId }}</th>
+                            <td> <div class="{{ supportTicket.getClassStatus }}" maxlength="10">{{ supportTicket.getTitle }}</div></td>
+                            <td>{{ supportTicket.getTypeString }}</td>
+                            <td>{{ supportTicket.getCreatedAt|date('d/m/Y H:i') }}</td>
+                            <td><a href="{{ path('admin_support_ticket_edit', {ticket: supportTicket.getId}) }}" class="btn btn-primary">Consulter</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
