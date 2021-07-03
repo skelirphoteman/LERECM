@@ -1,0 +1,72 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Ticket n° {{ support_ticket.getId() }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card text-white bg-success">
+                    <h5 class="card-header">{{ support_ticket.getTitle }}</h5>
+                    <div class="card-body">
+                        <h2 class="card-title">Objet : <strong> {{ support_ticket.getTypeString }}</strong></h2>
+                        <h2 class="card-title">Contenue de la demande : </h2>
+                        <p class="card-text"> {{ support_ticket.getContent }}</p>
+                        <p align="right">Créer le <strong>{{ support_ticket.getCreatedAt|date('d/m/Y H:i') }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card border-primary">
+                    <h5 class="card-header border-primary">Réponse(s) envoyées</h5>
+                    <div class="card-body ">
+                        {% if support_ticket.getSupportTicketMessages is not empty %}
+                            {% for supportTicketMessage in support_ticket.getSupportTicketMessages %}
+                                <div class="col-12 mt-2">
+                                    <div class="card">
+                                        <div class="card-body ">
+                                            <h3>Contenue de la réponse :</h3>
+                                            <p>{{ supportTicketMessage.getContent }}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6" align="left">
+                                                    Par <strong>{{ supportTicketMessage.getCreatedBy.getSurname }} {{ supportTicketMessage.getCreatedBy.getName }}</strong>
+                                                </div>
+                                                <div class="col-12 col-sm-6" align="right">
+                                                    Posté le <strong>{{ supportTicketMessage.getCreatedAt|date('d/m/Y H:i') }}</strong>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card text-dark bg-info">
+                    <h5 class="card-header ">Répondre</h5>
+                    <div class="card-body ">
+                        {{ form_start(form_support_ticket_message) }}
+                        {{ form_errors(form_support_ticket_message) }}
+                        <div class="row">
+                            <div class="col-12 mt-2">
+                                {{ form_row(form_support_ticket_message.content) }}
+                            </div>
+                        </div>
+                        <div class="p-2" align="center">
+                            <input type="submit" value="Ajouter cette réponse" class="btn btn-primary">
+                        </div>
+
+
+                        {{ form_end(form_support_ticket_message) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

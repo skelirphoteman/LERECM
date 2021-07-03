@@ -37,7 +37,7 @@ class SupportTicketAdminController extends AbstractController
     public function editListSupportTicket(SupportTicket $ticket = null, Request $request, SupportTicketService $supportTicketService) : Response
     {
         if($ticket == null){
-            throw $this->createNotFoundException('Aucun utilisateur trouvé');
+            throw $this->createNotFoundException('Aucun ticket trouvé');
         }
 
         $supportTicketMessage = new SupportTicketMessage();
