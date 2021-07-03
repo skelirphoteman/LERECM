@@ -2,7 +2,7 @@
 
 namespace App\Domain\UserClient\Entity;
 
-use App\Repository\Domain\UserClient\Entity\UserClientRepository;
+use App\Domain\UserClient\Repository\UserClientRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 

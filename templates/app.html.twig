@@ -31,12 +31,22 @@
                             <li><a class="dropdown-item" href="{{ path('app_client_list') }}">Liste des Clients</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Support
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="supportDropdown">
+                            <li><a class="dropdown-item" href="{{ path('app_support_ticket_add') }}">J'ai une question/demande</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                     </li>
+                    {% if app.user.isAdmin %}
                     <li class="nav-item">
                         <a href="{{ path('admin_index') }}" class="nav-link btn btn-danger">Administration</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
