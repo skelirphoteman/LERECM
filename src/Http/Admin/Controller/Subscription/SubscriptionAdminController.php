@@ -78,7 +78,7 @@ class SubscriptionAdminController extends AbstractController
             $responseSubscription = $subscriptionService->editSubscription($subscription);
 
             if(!$responseSubscription){
-                $this->addFlash('success', 'L\'abonnement a bien été mis-à-jour-+.');
+                $this->addFlash('success', 'L\'abonnement a bien été mis-à-jour.');
                 return $this->redirectToRoute('admin_index');
             }else{
                 $this->addFlash('danger', $responseSubscription);
@@ -86,6 +86,7 @@ class SubscriptionAdminController extends AbstractController
         }
         return $this->render('admin/subscription/edit.html.twig', [
             'form_subscription' => $formSubscritpion->createView(),
+            'companyId' => $subscription->getCompany()->getId(),
         ]);
     }
 }

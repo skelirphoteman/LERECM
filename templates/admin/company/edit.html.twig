@@ -1,0 +1,46 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Modifier une Entreprise{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_company) }}
+            {{ form_errors(form_company) }}
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.name) }}
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.siret_code) }}
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.ape_code) }}
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.tva_code) }}
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.phone) }}
+                </div>
+
+                <div class="col-12 mt-2">
+                    {{ form_row(form_company.avenue) }}
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-6 mt-2">
+                    {{ form_row(form_company.city) }}
+                </div>
+
+            </div>
+
+            <div class="p-2" align="center">
+                <input type="submit" value="Modifier l'entreprise" class="btn btn-success">
+            </div>
+
+
+            {{ form_end(form_company) }}
+        </div>
+    </div>
+
+{% endblock %}

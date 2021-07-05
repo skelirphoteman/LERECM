@@ -62,6 +62,13 @@ class UserService
         return true;
     }
 
+    private function insertUser(User $user)
+    {
+        $em = $this->entityManager;
+        $em->persist($user);
+        $em->flush();
+    }
+
     public function createUserFromSkelirPanel($email) : User
     {
             $user = new User();
@@ -82,7 +89,7 @@ class UserService
         return $user;
     }
 
-    public function createUser($user) : User
+    private function createUser($user) : User
     {
         $user->setCreatedAt(new \DateTime('now'));
         $user->setState(1);
@@ -91,9 +98,7 @@ class UserService
             $user,
             $password
         ));
-        $em = $this->entityManager;
-        $em->persist($user);
-        $em->flush();
+        $this->insertUser($user);
         $this->createUserMailer->send($user->getEmail(), [
             'user_email' => $user->getEmail(),
             'user_password' => $password
@@ -123,6 +128,12 @@ class UserService
 
         $this->createUser($user);
 
+        return null;
+    }
+
+    public function editUserAccount(User $user) : ?String
+    {
+        $this->insertUser($user);
         return null;
     }
 }

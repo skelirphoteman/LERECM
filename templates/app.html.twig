@@ -39,6 +39,14 @@
                             <li><a class="dropdown-item" href="{{ path('app_support_ticket_add') }}">J'ai une question/demande</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="{{ path('app_account_edit') }}">Profile</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                     </li>
