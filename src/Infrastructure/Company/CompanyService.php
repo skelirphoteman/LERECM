@@ -16,6 +16,13 @@ class CompanyService
         $this->entityManager = $entityManager;
     }
 
+    private function insertCompany(Company $company)
+    {
+        $em = $this->entityManager;
+        $em->persist($company);
+        $em->flush();
+    }
+
     public function createCompanyFromSkelirPanel($user_panel_id, User $user, Subscription $subscription) : Company
     {
         $company = new Company();
@@ -25,5 +32,13 @@ class CompanyService
         $company->setUserPanelId($user_panel_id);
 
         return $company;
+    }
+
+    public function editCompany(Company $company) : ?String
+    {
+        $this->insertCompany($company);
+
+
+        return null;
     }
 }

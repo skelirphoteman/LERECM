@@ -19,10 +19,12 @@
 
             <div class="p-2" align="center">
                 <input type="submit" value="Modifier l'abonnement" class="btn btn-success">
+                <a href="{{ path('admin_company_edit', {company: companyId}) }}" class="btn btn-warning">Modifier les informations de l'entreprise</a>
             </div>
 
 
             {{ form_end(form_subscription) }}
+
         </div>
     </div>
 

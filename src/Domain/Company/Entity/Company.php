@@ -53,6 +53,36 @@ class Company
      */
     private $supportTickets;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siret_code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ape_code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avenue;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tva_code;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -192,6 +222,78 @@ class Company
                 $supportTicket->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSiretCode(): ?string
+    {
+        return $this->siret_code;
+    }
+
+    public function setSiretCode(?string $siret_code): self
+    {
+        $this->siret_code = $siret_code;
+
+        return $this;
+    }
+
+    public function getApeCode(): ?string
+    {
+        return $this->ape_code;
+    }
+
+    public function setApeCode(?string $ape_code): self
+    {
+        $this->ape_code = $ape_code;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAvenue(): ?string
+    {
+        return $this->avenue;
+    }
+
+    public function setAvenue(?string $avenue): self
+    {
+        $this->avenue = $avenue;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getTvaCode(): ?string
+    {
+        return $this->tva_code;
+    }
+
+    public function setTvaCode(?string $tva_code): self
+    {
+        $this->tva_code = $tva_code;
 
         return $this;
     }

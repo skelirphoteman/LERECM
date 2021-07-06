@@ -1,0 +1,48 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card ">
+                    <div class="card-header" align="center">
+                        Informations de votre compte
+                    </div>
+                    <div class="card-body p-2">
+                        {{ form_start(form_user) }}
+                        {{ form_errors(form_user) }}
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mt-2">{{ form_row(form_user.surname) }}</div>
+                            <div class="col-12 col-sm-6 mt-2">{{ form_row(form_user.name) }}</div>
+                            <div class="col-12 col-sm-6 mt-2">Compte créer depuis le : <strong>{{ app.user.getCreatedAt|date('d/m/Y') }}</strong></div>
+                            <div class="col-12 mt-2" align="center">
+                                <input type="submit" value="Modifier" class="btn btn-primary"></input>
+                            </div>
+                        </div>
+                        {{ form_end(form_user) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card ">
+                    <div class="card-header" align="center">
+                        Informations sur votre entreprise
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mt-2">Nom : <strong>{{ app.user.getCompany.getName }}</strong></div>
+                            <div class="col-12 col-sm-6 mt-2">N° de Tel. : <strong>{{ app.user.getCompany.getPhone }}</strong></div>
+                            <div class="col-12 col-sm-6 mt-2">N° de Siret : <strong>{{ app.user.getCompany.getSiretCode }}</strong></div>
+                            <div class="col-12 col-sm-6 mt-2">N° de T.V.A : <strong>{{ app.user.getCompany.getTvaCode }}</strong></div>
+                            <div class="col-12 col-sm-6 mt-2">Code APE : <strong>{{ app.user.getCompany.getApeCode }}</strong></div>
+                            <div class="col-12 mt-2">Adresse : <strong>{{ app.user.getCompany.getAvenue }}</strong></div>
+                            <div class="col-12 col-sm-6 mt-2">Ville : <strong>{{ app.user.getCompany.getCity }}</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

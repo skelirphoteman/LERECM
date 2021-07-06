@@ -12,7 +12,7 @@ use App\Http\Admin\Form\AddSupportTicketMessageType;
 use App\Infrastructure\UserSupport\SupportTicketService;
 
 /**
- *@Route("admin/support/ticket")
+ *@Route("admin/support/ticket/")
  */
 class SupportTicketAdminController extends AbstractController
 {
