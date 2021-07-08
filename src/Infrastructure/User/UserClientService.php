@@ -8,6 +8,7 @@ use App\Domain\User\Entity\User;
 use App\Domain\Client\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -21,14 +22,17 @@ class UserClientService
 
     private $twig;
 
+    private $environment;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 UserPasswordEncoderInterface $passwordEncoder,
-                                Environment $twig)
+                                Environment $twig,
+                                KernelInterface $kernel)
     {
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->twig = $twig;
+        $this->environment = $kernel->getEnvironment();
     }
 
     private function generatePassword($number = 10): string
@@ -56,8 +60,10 @@ class UserClientService
         $userClient->addRole("ROLE_CLIENT");
         $em->persist($userClient);
         $em->flush();
+        if($this->environment != "test"){
+            $this->generatePDF($client, $userClient, $password);
+        }
 
-        $this->generatePDF($client, $userClient, $password);
 
         return $userClient;
     }

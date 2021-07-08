@@ -52,6 +52,14 @@ class TestFixtures extends Fixture
 
         $manager->persist($company);
 
+        //client
+        $client = new Client($user);
+        $client->setIsCompany(false);
+        $client->setSurname('korp');
+        $client->setName('Michel');
+        $client->setCompany($company);
+        $manager->persist($client);
+
 
 
         //Utilisateur MECHANT
