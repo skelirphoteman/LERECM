@@ -35,6 +35,15 @@
                             <li><a class="dropdown-item" href="{{ path('admin_support_ticket_list') }}">Liste des tickets</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="articlesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Articles
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="articlesDropdown">
+                            <li><a class="dropdown-item" href="{{ path('admin_article_list') }}">Liste des Articles</a></li>
+                            <li><a class="dropdown-item" href="{{ path('admin_article_add', {article: null}) }}">Ajouter un Article</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ path('app_index') }}" class="nav-link btn btn-success">Retour sur le panel</a>
                     </li>

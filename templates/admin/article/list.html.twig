@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Listes des Articles{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% if articles is not empty %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Etat</th>
+                        <th scope="col">Modifier</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <th scope="row">{{ article.getId }}</th>
+                            <td>{{ article.getTitle }}</td>
+                            <td>{{ article.getStateString|raw }}</td>
+                            <td><a href="{{ path('admin_article_add', {article : article.getId}) }}" class="btn btn-primary">Modifier</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
