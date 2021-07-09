@@ -17,7 +17,7 @@ use App\Domain\Article\Entity\Article;
 class InterfaceController extends AbstractController
 {
     /**
-     * @Route("/", name="app_index")
+     * @Route("", name="app_index")
      */
     public function index(): Response
     {
