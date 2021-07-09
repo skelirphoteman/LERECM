@@ -6,8 +6,9 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('base') }}
 
+            {{ encore_entry_link_tags('base') }}
+            {{ encore_entry_link_tags('general') }}
         {% endblock %}
 
         {% block javascript %}
@@ -27,6 +28,9 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ path('app_login') }}">Espace Entreprise</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('client_login') }}">Espace client</a>
                     </li>
                 </ul>
             </div>

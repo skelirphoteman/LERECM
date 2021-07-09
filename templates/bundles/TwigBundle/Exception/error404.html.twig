@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 align="center">Erreur 404 - Page non trouvé</h1>
+
+    <p>
+    <div align="center">
+        <strong>Êtes-vous perdu ?</strong>
+    </div>
+        <br>
+        Vous essayez d'acceder à une page qui n'existe pas/plus. Si vous pensez qu'il s'agit d'une erreur, veuillez nous contactez par mail pour nous signalez ce problème : contact@skelirscreation.fr<br>
+        {% if app.user is not empty %}
+            <div align="center">
+                <a href="{{ path('app_index') }}">Retouner sur l'interface</a>
+            </div>
+        {% endif %}
+    </p>
+{% endblock %}

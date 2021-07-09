@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 align="center">Un problème est survenue</h1>
+
+    <p>
+        Nous nous excusons mais une erreur est survenue. Veuillez nous contactez par mail pour nous signalez ce problème : contact@skelirscreation.fr<br>
+        {% if app.user is not empty %}
+            <div align="center">
+                <a href="{{ path('app_index') }}">Retouner sur l'interface</a>
+            </div>
+        {% endif %}
+    </p>
+{% endblock %}
