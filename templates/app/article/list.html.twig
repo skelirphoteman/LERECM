@@ -1,0 +1,31 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Listes des Articles{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% if articles is not empty %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Consulter</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <th scope="row">{{ article.getId }}</th>
+                            <td>{{ article.getTitle }}</td>
+                            <td><a href="{{ path('app_article_view', {article : article.getId}) }}" class="btn btn-primary">Lire l'article</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

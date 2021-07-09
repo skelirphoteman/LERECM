@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Domain\User\Entity\User;
 use App\Domain\Company\Entity\Company;
 use App\Domain\Client\Entity\Client;
+use App\Domain\Article\Entity\Article;
 use App\Domain\Subscription\Entity\Subscription;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -100,6 +101,12 @@ class TestFixtures extends Fixture
 
         $manager->persist($client);
 
+        $article = new Article();
+        $article->setTitle("Test");
+        $article->setContent("bonjour à tous");
+        $article->setState(2);
+        $article->setCreatedAt(new \DateTime('now'));
+        $manager->persist($article);
 
         $manager->flush();
     }

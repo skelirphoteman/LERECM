@@ -43,6 +43,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 mt-4">
+                            {% if articles is not empty %}
+                                <h3 align="center">Nos derniers articles</h3>
+                                {% for article in articles %}
+                                    <div class="card mt-2">
+                                        <div class="card-body">
+                                            <strong style="text-overflow: ellipsis;">{{ article.getTitle }}</strong>
+                                            <br>
+                                            <div align="right">
+                                                <a href="{{ path('app_article_view', {article: article.getId}) }}" class="btn btn-outline-primary">Lire l'article</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <h3>Aucun Articles n'est actuellement disponible</h3>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

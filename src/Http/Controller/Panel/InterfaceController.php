@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
+use App\Domain\Article\Entity\Article;
 
 /**
  * Class InterfaceController
@@ -16,10 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
 class InterfaceController extends AbstractController
 {
     /**
-     * @Route("/", name="app_index")
+     * @Route("", name="app_index")
      */
     public function index(): Response
     {
-        return $this->render('app/panel/Index.html.twig');
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findBy([
+                'state' => 2,
+                ], [
+                    "created_at" => "desc"
+            ], 2);
+        return $this->render('app/panel/Index.html.twig', [
+            'articles' => $articles
+        ]);
     }
 }

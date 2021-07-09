@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Ajouter/Modifier un article{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_article) }}
+            {{ form_errors(form_article) }}
+            <div class="row">
+                <div class="col-12 mt-2">
+                    {{ form_row(form_article.title) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_article.content) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_article.created_at) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_article.state) }}
+                </div>
+
+            </div>
+
+            <div class="p-2" align="center">
+                <input type="submit" value="Ajouter/Modifier l'article" class="btn btn-success">
+            </div>
+            {{ form_end(form_article) }}
+        </div>
+    </div>
+
+{% endblock %}
