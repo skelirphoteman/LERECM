@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use App\Domain\Article\Entity\Article;
+use App\Domain\Task\Entity\Task;
 
 /**
  * Class InterfaceController
@@ -28,8 +29,19 @@ class InterfaceController extends AbstractController
                 ], [
                     "created_at" => "desc"
             ], 2);
+
+        $tasks = $this->getDoctrine()
+            ->getRepository(Task::class)
+            ->findBy([
+                'state' => 0,
+                'company' => $this->getUser()->getCompany()
+            ], [
+                "end_at" => "asc"
+            ], 5);
+
         return $this->render('app/panel/Index.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
+            'tasks' => $tasks
         ]);
     }
 }

@@ -1,0 +1,33 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Ajouter une Tâche{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_task) }}
+            {{ form_errors(form_task) }}
+            <div class="row">
+                <div class="col-12 mt-2">
+                    {{ form_row(form_task.name) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_task.state) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_task.end_at) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_task.content) }}
+                </div>
+            </div>
+            <div class="p-2" align="center">
+                <input type="submit" value="Créer la tâche" class="btn btn-primary">
+            </div>
+
+
+            {{ form_end(form_task) }}
+        </div>
+    </div>
+
+{% endblock %}
