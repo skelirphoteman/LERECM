@@ -15,7 +15,7 @@
                                 </div>
                                 <div class="card-body p-2">
                                     {% if app.user.getCompany.getClients is not null %}
-                                    <table class="table">
+                                    <table class="table table-bordered">
                                         <thead class="table-dark">
                                         <tr>
                                             <th>Nom</th>
@@ -66,29 +66,68 @@
             </div>
             <div class="col-12 col-sm-4">
                 <div class="card">
-                    <div class="p-5">
-                        <h2>Vos demandes de renseignements :</h2>
-                        {% if app.user.getCompany.getSupportTickets is not null %}
-                            <table class="table">
-                                <thead class="table-dark">
-                                <tr>
-                                    <th>Titre</th>
-                                    <th>Consulter</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for supportTicket in app.user.getCompany.getSupportTickets|reverse|slice(0, 5) %}
-                                    <tr>
-                                        <td>{{ supportTicket.getTitle }}</td>
-                                        <td><a href="{{ path('app_support_ticket_edit', {ticket: supportTicket.getId}) }}" class="btn btn-secondary btn-sm">Consulter</a></td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <p align="center">Aucune demande éffectué pour le moment</p>
-                        {% endif %}
+                    <div class="row">
+                        <div class="col-12 mt-2">
+                            <div class="p-5">
+                                <h2>Tâche(s) en cours :</h2>
+                                {% if tasks is not null %}
+                                    <table class="table table-bordered">
+                                        <thead class="table-info">
+                                        <tr>
+                                            <th>Libellé</th>
+                                            <th>Terminer</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for task in tasks %}
+                                            <tr class="{{ task.getTableClass }}">
+                                                <td>{{ task.getName }}</td>
+                                                <td><a href="{{ path('app_task_end', {task: task.getId}) }}" class="btn btn-primary btn-sm">Terminer</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot class="table-info">
+                                            <tr>
+                                                <td colspan="2" align="center">
+                                                    <a href="{{ path('app_task_add') }}" class="btn btn-outline-success">Créer</a>
+                                                    <a href="{{ path('app_task_list') }}" class="btn btn-outline-secondary">Liste</a>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                {% else %}
+                                    <p align="center">Aucune taĉhe prévue pour le moment</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="p-5">
+                                <h2>Vos demandes de renseignements :</h2>
+                                {% if app.user.getCompany.getSupportTickets is not null %}
+                                    <table class="table table-bordered">
+                                        <thead class="table-warning">
+                                        <tr>
+                                            <th>Titre</th>
+                                            <th>Consulter</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for supportTicket in app.user.getCompany.getSupportTickets|reverse|slice(0, 5) %}
+                                            <tr>
+                                                <td>{{ supportTicket.getTitle }}</td>
+                                                <td><a href="{{ path('app_support_ticket_edit', {ticket: supportTicket.getId}) }}" class="btn btn-secondary btn-sm">Consulter</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                                {% else %}
+                                    <p align="center">Aucune demande éffectué pour le moment</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

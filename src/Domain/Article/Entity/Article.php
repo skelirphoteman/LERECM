@@ -2,7 +2,7 @@
 
 namespace App\Domain\Article\Entity;
 
-use App\Repository\Domain\Article\Entity\ArticleRepository;
+use App\Domain\Article\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use PhpParser\Node\Scalar\String_;
 

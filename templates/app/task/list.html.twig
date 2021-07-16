@@ -1,0 +1,63 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Listes des Tâches{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-2">
+                <h2>Tâches en cours :</h2>
+                {% if tasks_progress is not empty %}
+                    <div class="accordion" id="accordionProgressTask">
+                        {% for task in tasks_progress %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ task.getId }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ task.getId }}" aria-expanded="true" aria-controls="collapseOne">
+                                        {{ task.getName }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ task.getId }}" class="accordion-collapse collapse" aria-labelledby="heading{{ task.getId }}" data-bs-parent="#accordionProgressTask">
+                                    <div class="accordion-body">
+                                        {{ task.getContent }}
+                                        <div align="right">
+                                            <a href="{{ path('app_task_end', {task: task.getId}) }}" class="btn btn-primary btn-sm">Terminer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+            </div>
+
+            <div class="col-12 mt-2">
+                <h2>Tâches en terminé :</h2>
+                {% if tasks_end is not empty %}
+                    <div class="accordion" id="accordionProgressTask">
+                        {% for task in tasks_end %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ task.getId }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ task.getId }}" aria-expanded="true" aria-controls="collapseOne">
+                                        {{ task.getName }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ task.getId }}" class="accordion-collapse collapse" aria-labelledby="heading{{ task.getId }}" data-bs-parent="#accordionProgressTask">
+                                    <div class="accordion-body">
+                                        {{ task.getContent }}
+                                        <div align="right">
+                                            <a href="{{ path('app_task_delete', {task: task.getId}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

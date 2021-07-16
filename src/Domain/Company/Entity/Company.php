@@ -5,6 +5,7 @@ namespace App\Domain\Company\Entity;
 use App\Domain\Client\Entity\Client;
 use App\Domain\Subscription\Entity\Subscription;
 use App\Domain\Company\Repository\CompanyRepository;
+use App\Domain\Task\Entity\Task;
 use App\Domain\UserSupport\Entity\SupportTicket;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -83,11 +84,17 @@ class Company
      */
     private $tva_code;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="company")
+     */
+    private $tasks;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->supportTickets = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -294,6 +301,36 @@ class Company
     public function setTvaCode(?string $tva_code): self
     {
         $this->tva_code = $tva_code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getCompany() === $this) {
+                $task->setCompany(null);
+            }
+        }
 
         return $this;
     }
