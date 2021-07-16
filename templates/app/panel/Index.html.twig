@@ -70,7 +70,7 @@
                         <div class="col-12 mt-2">
                             <div class="p-5">
                                 <h2>Tâche(s) en cours :</h2>
-                                {% if tasks is not null %}
+                                {% if tasks is not empty %}
                                     <table class="table table-bordered">
                                         <thead class="table-info">
                                         <tr>
@@ -96,14 +96,18 @@
                                         </tfoot>
                                     </table>
                                 {% else %}
-                                    <p align="center">Aucune taĉhe prévue pour le moment</p>
+                                    <p align="center">Aucune tâche prévue pour le moment</p>
+                                    <div align="right">
+                                        <a href="{{ path('app_task_add') }}" class="btn btn-outline-success">Créer une tâche</a>
+                                    </div>
+
                                 {% endif %}
                             </div>
                         </div>
                         <div class="col-12 mt-2">
                             <div class="p-5">
                                 <h2>Vos demandes de renseignements :</h2>
-                                {% if app.user.getCompany.getSupportTickets is not null %}
+                                {% if app.user.getCompany.getSupportTickets is not empty %}
                                     <table class="table table-bordered">
                                         <thead class="table-warning">
                                         <tr>

@@ -34,6 +34,7 @@ class InterfaceController extends AbstractController
             ->getRepository(Task::class)
             ->findBy([
                 'state' => 0,
+                'company' => $this->getUser()->getCompany()
             ], [
                 "end_at" => "asc"
             ], 5);

@@ -73,12 +73,12 @@ class TaskController extends AbstractController
     {
         $tasks_progress = $this->getDoctrine()
             ->getRepository(Task::class)
-            ->findby(['state' => 0], ['end_at' => 'asc']);
+            ->findby(['state' => 0, 'company' => $this->getUser()->getCompany()], ['end_at' => 'asc']);
 
 
         $tasks_end = $this->getDoctrine()
             ->getRepository(Task::class)
-            ->findby(['state' => 1], ['end_at' => 'asc']);
+            ->findby(['state' => 1, 'company' => $this->getUser()->getCompany()], ['end_at' => 'asc']);
 
 
         return $this->render("app/task/list.html.twig",[
