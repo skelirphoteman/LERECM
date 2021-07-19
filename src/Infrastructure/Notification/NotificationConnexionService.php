@@ -30,7 +30,7 @@ class NotificationConnexionService
 
     public function newConnexion(User $user) : ?String
     {
-        //$this->notificationConnexion->send($user->getEmail(), []);
+        $this->notificationConnexion->send($user->getEmail(), []);
 
         $this->newConnection->send(['name' => $user->getSurname() . " " . $user->getName()]);
 

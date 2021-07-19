@@ -8,6 +8,7 @@ use App\Domain\User\Entity\ResetPassword;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\Date;
 use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
+use App\Infrastructure\SkelirTelegram\SkelirTelegramInterface;
 
 class ResetPasswordService
 {
@@ -19,15 +20,19 @@ class ResetPasswordService
 
     private $confirmResetPasswordMailer;
 
+    private $resetPasswordTelegram;
+
     public function __construct(EntityManagerInterface $entityManager,
                                 UserService $userService,
                                 SkelirMailerInterface $resetPasswordMailer,
-                                SkelirMailerInterface $confirmResetPasswordMailer)
+                                SkelirMailerInterface $confirmResetPasswordMailer,
+                                SkelirTelegramInterface $resetPasswordTelegram)
     {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->resetPasswordMailer = $resetPasswordMailer;
         $this->confirmResetPasswordMailer = $confirmResetPasswordMailer;
+        $this->resetPasswordTelegram = $resetPasswordTelegram;
 
     }
 
@@ -107,6 +112,7 @@ class ResetPasswordService
 
 
         $this->confirmResetPasswordMailer->send($resetPassword->getUser()->getEmail(), []);
+        $this->resetPasswordTelegram->send(['name' => $resetPassword->getUser()->getSurname() . " " . $resetPassword->getUser()->getName()]);
     }
 
     public function createToken($email) : ?String
