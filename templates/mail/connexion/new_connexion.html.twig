@@ -1,0 +1,33 @@
+{% extends 'mail/base.html.twig' %}
+
+{% block title %}Nouvel connexion{% endblock %}
+
+{% block header %}
+    <tr>
+        <td class="h2">
+            Nouvelle connexion sur L.E.R.E.C.M
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            Nous vous signalons qu'une nouvelle connexion a été détecté via votre compte sur L.E.R.E.C.M.
+        </td>
+    </tr>
+{% endblock %}
+
+{% block body %}
+    <tr>
+        <td class="h2" align="center">
+            Ce n'est pas vous ?
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycopy">
+            S'il ne s'agit pas de vous, veuillez immédiatement changer votre mot de passe.
+            <div align="center">
+                <a href="{{ absolute_url(path('app_reset_password')) }}" class="BUTTON_WDO">Changer mon mot de passe</a>
+            </div>
+            Si vous ne souhaitez plus recevoir ce type d'e-mail, vous pouvez changer cela dans les paramètres de votre compte.
+        </td>
+    </tr>
+{% endblock %}

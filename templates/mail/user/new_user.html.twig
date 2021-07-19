@@ -1,6 +1,6 @@
 {% extends 'mail/base.html.twig' %}
 
-{% block title %}Bienvenue a marseille{% endblock %}
+{% block title %}Bienvenue{% endblock %}
 
 {% block header %}
     <tr>
@@ -29,7 +29,7 @@
                 <li>Mot de passe : <strong>{{ user_password }}</strong></li>
             </ul>
             <div align="center">
-                <a href="" class="BUTTON_WDO">Changer mon mot de passe</a>
+                <a href="{{ absolute_url(path('app_reset_password')) }}" class="BUTTON_WDO">Changer mon mot de passe</a>
             </div>
         </td>
     </tr>
