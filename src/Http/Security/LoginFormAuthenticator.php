@@ -18,7 +18,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-
+use App\Infrastructure\Notification\NotificationConnexionService;
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
@@ -28,11 +28,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
+    private $notificationConnexionService;
+    private $user;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, 
                                 CsrfTokenManagerInterface $csrfTokenManager,
-                                UserPasswordEncoderInterface $passwordEncoder)
+                                UserPasswordEncoderInterface $passwordEncoder,
+                                NotificationConnexionService $notificationConnexionService)
     {
+        $this->notificationConnexionService = $notificationConnexionService;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
@@ -74,6 +78,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new UsernameNotFoundException('Cette adresse mail ne correspond à aucun compte.');
         }
 
+        $this->user = $user;
+
         return $user;
     }
 
@@ -98,6 +104,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $this->notificationConnexionService->newConnexion($this->user);
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
