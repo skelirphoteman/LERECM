@@ -72,5 +72,16 @@ services:
       arguments:
         $env: '%env(APP_SKELIR_ENV)%'
 
+    App\Infrastructure\SkelirTelegram\DayRapportSkelirTelegram:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
     App\Infrastructure\SkelirTelegram\SkelirTelegramInterface $newConnection: '@App\Infrastructure\SkelirTelegram\NewConnectionSkelirTelegram'
     App\Infrastructure\SkelirTelegram\SkelirTelegramInterface $resetPasswordTelegram: '@App\Infrastructure\SkelirTelegram\ResetPasswordSkelirTelegram'
+    App\Infrastructure\SkelirTelegram\SkelirTelegramInterface $dayRapportTelegram: '@App\Infrastructure\SkelirTelegram\DayRapportSkelirTelegram'
+
+
+    #ActionListener
+    App\Infrastructure\ActionListener\NewConnectionActionListener:
+
+    App\Infrastructure\ActionListener\ActionListenerInterface $newConnectionActionListener: '@App\Infrastructure\ActionListener\NewConnectionActionListener'

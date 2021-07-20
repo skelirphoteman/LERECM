@@ -5,6 +5,9 @@
 {% block body %}
     <div class="container">
         <div class="row">
+            <div class="col-12">
+                <a href="{{ path('admin_rapport_telegram') }}" class="btn btn-primary">Charger un rapport journalier</a>
+            </div>
             {% if users is not empty %}
                 <table class="table">
                     <thead>
