@@ -6,18 +6,30 @@
 <body>
 <h4>Code de connexion à LERECM</h4>
 <div>
-    <h2>Information entreprise : </h2>
+    <div>
+        L'entreprise {{ company.getName }} utilise L.E.R.E.C.M pour structurer et organiser son fichier client.
+        Parmis les fonctionnalitées de L.E.R.E.C.M, la création d'un espace dédié pour chaque client est disponible. {{ company.getName }} vous a donc crée un compte
+        personnelle afin que vous puissiez visionner et télécharger à n'importe quel moment tous les documents que vous fournira l'entreprise.
+    </div>
+    <h2>Vos informations :</h2>
     <ul>
-        <li>{{ company.getName }}</li>
-    </ul>
-    <h2>Client :</h2>
-    <ul>
-        <li>Nom : {{ client.getSurname }}</li>
-        <li>Prénom : {{ client.getName }}</li>
-        <li>Date de naissance : {{ client.getBirthday|date('j/m/Y') }}</li>
+        {% if client.getSurname is not null %}
+            <li>Nom : {{ client.getSurname }}</li>
+        {% endif %}
+        {% if client.getName is not null %}
+            <li>Prénom : {{ client.getName }}</li>
+        {% endif %}
+        {% if client.getBirthday is not null %}
+            <li>Date de naissance : {{ client.getBirthday|date('j/m/Y') }}</li>
+        {% endif %}
+
         {% if client.getIsCompany %}
-            <li>Entreprise : {{ client.getCompanyName }}</li>
-            <li>N° Siret : {{ client.getSiret }}</li>
+            {% if client.getCompanyName is not null %}
+                <li>Entreprise : {{ client.getCompanyName }}</li>
+            {% endif %}
+            {% if client.getSiret is not null %}
+                <li>N° Siret : {{ client.getSiret }}</li>
+            {% endif %}
         {% endif %}
     </ul>
     <h2>Information de connexion </h2>
@@ -25,6 +37,9 @@
         <li>Identifiant : {{ userClient.getUuid }}</li>
         <li>Mot de passe : {{ password }}</li>
     </ul>
+    <div>
+        Si vous ne souhaitez plus/pas avoir de compte client, veuillez en faire parvenir à l'entreprise.
+    </div>
 </div>
 </body>
 </html>
