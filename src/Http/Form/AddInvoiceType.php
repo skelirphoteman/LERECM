@@ -30,7 +30,7 @@ class AddInvoiceType extends AbstractType
 
                 'constraints' => [
                     new File([
-                        'maxSize' => '2024k',
+                        'maxSize' => '10M',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
