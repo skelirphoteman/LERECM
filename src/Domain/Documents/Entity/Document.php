@@ -6,17 +6,20 @@ use App\Domain\Documents\Repository\DocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Documents\Entity\Invoice;
 use App\Domain\Documents\Entity\Quote;
+use App\Domain\Documents\Entity\File;
 use \App\Domain\Client\Entity\Client;
 use \App\Domain\Company\Entity\Company;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceRepository::class)
  * @ORM\Entity(repositoryClass=QuoteRepository::class)
+ * @ORM\Entity(repositoryClass=FileRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *      "Invoice" = "Invoice",
  *     "Quote" = "Quote",
+ *     "File" = "File",
  * })
  */
 abstract class Document

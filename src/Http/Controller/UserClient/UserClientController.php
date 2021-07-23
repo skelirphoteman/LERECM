@@ -5,6 +5,7 @@ namespace App\Http\Controller\UserClient;
 use App\Domain\Client\Entity\Client;
 use App\Domain\Documents\Entity\Invoice;
 use App\Domain\Documents\Entity\Quote;
+use App\Domain\Documents\Entity\File as Doc;
 use App\Infrastructure\Security\ClientAccessService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,11 +44,16 @@ class UserClientController extends AbstractController
             ->getRepository(Quote::class)
             ->findBy(["client" => $client], ["created_at" => "DESC"]);
 
+        $files = $this->getDoctrine()
+            ->getRepository(Doc::class)
+            ->findBy(["client" => $client], ["created_at" => "DESC"]);
+
 
         return $this->render('client/panel/index.html.twig', [
             'client' => $client,
             'invoices' => $invoices,
             'quotes' => $quotes,
+            'files' => $files,
         ]);
     }
 
@@ -77,5 +83,19 @@ class UserClientController extends AbstractController
 
         $this->clientAccessService->clientAccess($quote->getClient());
         return $this->file($quote->getDir($this->getParameter('kernel.project_dir')), 'Devis ' . $quote->getFilename() . '.pdf', ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    /**
+     * @Route("/file/view/{file}", name="client_document_file_view")
+     */
+    public function viewFile(Doc $file = null) : Response
+    {
+
+        if(!$file){
+            throw $this->createNotFoundException('Aucun Document trouvé');
+        }
+
+        $this->clientAccessService->clientAccess($file->getClient());
+        return $this->file($file->getDir($this->getParameter('kernel.project_dir')), 'Document ' . $file->getFilename() . '.pdf', ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

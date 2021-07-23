@@ -130,7 +130,40 @@
                                         <td>{{ quote.getName }}</td>
                                         <td>{{ quote.getPrice }}€</td>
                                         <td>{{ quote.getCreatedAt|date('j/m/Y') }}</td>
-                                        <td><a href="{{ path('client_document_quote_view', {quote: quote.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                        <td><a href="{{ path('client_document_quote_view', {quote: quote.getId}) }}" target="_blank" class="btn btn-primary">Voir le Devis</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDoc">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDoc" aria-expanded="false" aria-controls="collapseTwo">
+                        Document(s) Divers
+                    </button>
+                </h2>
+                <div id="collapseDoc" class="accordion-collapse collapse" aria-labelledby="headingDoc" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% if files is empty %}
+                            <strong>Aucun Document disponible.</strong>
+                        {% else %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Consulter</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for file in files %}
+                                    <tr>
+                                        <td>{{ files.getName }}</td>
+                                        <td>{{ files.getCreatedAt|date('j/m/Y') }}</td>
+                                        <td><a href="{{ path('client_document_file_view', {file: file.getId}) }}" target="_blank" class="btn btn-primary">Voir le Document</a></td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
