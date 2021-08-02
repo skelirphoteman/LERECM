@@ -3,6 +3,7 @@
 namespace App\Domain\Client\Entity;
 
 use App\Domain\Client\Repository\ClientRepository;
+use App\Domain\Contract\Entity\Contract;
 use App\Domain\Documents\Entity\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -118,11 +119,17 @@ class Client
      */
     private $documents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="client")
+     */
+    private $contracts;
+
     public function __construct(User $user)
     {
         $this->company = $user->getCompany();
         $this->created_at = new \DateTime('now');
         $this->documents = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -370,6 +377,36 @@ class Client
             // set the owning side to null (unless already changed)
             if ($document->getClient() === $this) {
                 $document->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getClient() === $this) {
+                $contract->setClient(null);
             }
         }
 

@@ -212,11 +212,34 @@
                     {% endif %}
                     <div class="p-3" align="center">
                         <a href="{{ path('app_document_file_add', {id: client.getId}) }}" class="btn btn-success">Ajouter un document</a>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+        <!-- contracts -->
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12" align="center">
+                    <h2>Contrat(s)</h2>
+                </div>
+                {% if client.getContracts is empty %}
+                    <div class="col-12">
+                        <p>Aucun contrat n'est affilié à ce client.</p>
+                    </div>
+                {% else %}
+                {% endif %}
+                <div class="col-12" align="center">
+                    <a href="{{ path('app_client_contract_add', {client: client.getId}) }}" class="btn btn-success">Ajouter un contrat</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
