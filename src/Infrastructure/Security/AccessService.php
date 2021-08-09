@@ -25,8 +25,10 @@ class AccessService
         }
     }
 
-    public function subscriptionIsValid()
+    public function subscriptionIsValid() : ?String
     {
+        if(!$this->user->getCompany()->getSubscription()->subIsValid()) return "Votre abonnement n'est plus valide.";
 
+        return null;
     }
 }

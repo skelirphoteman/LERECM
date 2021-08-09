@@ -231,6 +231,29 @@
                         <p>Aucun contrat n'est affilié à ce client.</p>
                     </div>
                 {% else %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Type de contrat</th>
+                            <th scope="col">Date de fin</th>
+                            <th scope="col">Consulter</th>
+                            <th scope="col">Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contract in client.getContracts %}
+                            <tr>
+                                <th scope="row">{{ contract.getId }}</th>
+                                <td>{{ contract.getTitle }}</td>
+                                <td>{{ contract.getContractTypeString }}</td>
+                                <td>{{ contract.getEndAt|date('j/m/Y') }}</td>
+                                <td><a href="{{ path('app_client_contract_edit', {contract: contract.getId}) }}" target="_blank" class="btn btn-primary">Voir le contrat</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 {% endif %}
                 <div class="col-12" align="center">
                     <a href="{{ path('app_client_contract_add', {client: client.getId}) }}" class="btn btn-success">Ajouter un contrat</a>

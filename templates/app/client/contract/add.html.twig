@@ -1,6 +1,6 @@
 {% extends 'app.html.twig' %}
 
-{% block title %}Créer un Contract{% endblock %}
+{% block title %}Créer un Contrat{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -20,8 +20,11 @@
                 <div class="col-12 col-sm-12 col-lg-6 mt-2">
                     {{ form_row(form_contract.end_at) }}
                 </div>
-                <div class="col-12 mt-2">
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
                     {{ form_row(form_contract.next_payment_at) }}
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                    {{ form_row(form_contract.price) }}
                 </div>
                 <div class="col-12 mt-2">
                     {{ form_row(form_contract.state) }}

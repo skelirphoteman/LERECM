@@ -5,6 +5,7 @@ namespace App\Domain\Contract\Entity;
 use App\Domain\Contract\Repository\ContractRepository;
 use Doctrine\ORM\Mapping as ORM;
 use \App\Domain\Client\Entity\Client;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * @ORM\Entity(repositoryClass=ContractRepository::class)
@@ -35,17 +36,17 @@ class Contract
     private $contract_type;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $start_at;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $end_at;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $next_payment_at;
 
@@ -53,6 +54,11 @@ class Contract
      * @ORM\Column(type="integer")
      */
     private $state;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
 
     public function getId(): ?int
     {
@@ -95,38 +101,38 @@ class Contract
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeImmutable
+    public function getStartAt(): ?\Datetime
     {
         return $this->start_at;
     }
 
-    public function setStartAt(\DateTimeImmutable $start_at): self
+    public function setStartAt(\Datetime $start_at): self
     {
         $this->start_at = $start_at;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeImmutable
+    public function getEndAt(): ?\Datetime
     {
         return $this->end_at;
     }
 
-    public function setEndAt(\DateTimeImmutable $end_at): self
+    public function setEndAt(\Datetime $end_at): self
     {
         $this->end_at = $end_at;
 
         return $this;
     }
 
-    public function getNextPaymentAt(): ?\DateTimeImmutable
+    public function getNextPaymentAt(): ?\Datetime
     {
         return $this->next_payment_at;
     }
 
-    public function setNextPaymentAt(?\DateTimeImmutable $next_payment_at): self
+    public function setNextPaymentAt(?\Datetime $next_payment_at): self
     {
-        $this->next_payment_at = $next_payment_at;
+        $this->next_payment_at = clone $next_payment_at;
 
         return $this;
     }
@@ -141,5 +147,32 @@ class Contract
         $this->state = $state;
 
         return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getContractTypeString(): String
+    {
+        if($this->contract_type == 0) return "Mensuel";
+        if($this->contract_type == 1) return "Trimestriel";
+        if($this->contract_type == 2) return "Semestriel";
+        if($this->contract_type == 3) return "Annuel";
+    }
+
+    public function nextPaymentIsValid() : bool
+    {
+        if ($this->next_payment_at >= $this->end_at) return false;
+
+        return true;
     }
 }

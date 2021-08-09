@@ -3,6 +3,7 @@
 namespace App\Http\Form;
 
 use App\Domain\Contract\Entity\Contract;
+use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,6 +24,11 @@ class AddContractType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'attr' => ['class' => 'form-control', "placeholder" => "Nom du contrat"],
+                'label' => false,
+                'required' => true
+            ])
+            ->add('price', NumberType::class, [
+                'attr' => ['class' => 'form-control', "placeholder" => "Montant du contrat"],
                 'label' => false,
                 'required' => true
             ])

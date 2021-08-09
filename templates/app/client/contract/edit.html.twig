@@ -1,0 +1,58 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Contrat{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+
+                </div>
+                <div class="card-body">
+                    {{ form_start(form_contract) }}
+                    {{ form_errors(form_contract) }}
+                    <div class="row">
+                        <div class="col-12 mt-2">
+                            <label for="">Titre :</label><br>
+                            {{ form_row(form_contract.title) }}
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label for="">Type de contrat :</label><br>
+                            {{ form_row(form_contract.contract_type) }}
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                            <label for="">Debut du contrat le :</label> <br>
+                            {{ form_row(form_contract.start_at) }}
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                            <label for="">Fin du contrat le :</label><br>
+                            {{ form_row(form_contract.end_at) }}
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                            <label for="">Prochain payement le :</label><br>
+                            {{ form_row(form_contract.next_payment_at) }}
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                            <label for="">Montant :</label><br>
+                            {{ form_row(form_contract.price) }}
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label for="">Etat du contrat :</label><br>
+                            {{ form_row(form_contract.state) }}
+                        </div>
+                        <div class="col-12 mt-2" align="center">
+                            <input type="submit" value="Modifier les informations" class="btn btn-primary">
+                            {% if contract.nextPaymentIsValid %}
+                            <a href="{{ path('app_client_contract_nextpayment', {contract: contract.getId}) }}" class="btn btn-secondary">Paiement du {{ contract.getNextPaymentAt|date('j/m/Y') }} reçu</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {{ form_end(form_contract) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('add_client_js') }}
+{% endblock %}
