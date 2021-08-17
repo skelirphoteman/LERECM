@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller\Panel;
 
+use App\Domain\Contract\Entity\Contract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,9 +40,15 @@ class InterfaceController extends AbstractController
                 "end_at" => "asc"
             ], 5);
 
+
+        $contracts = $this->getDoctrine()
+            ->getRepository(Contract::class)
+            ->findContractByCompany($this->getUser()->getCompany()->getId());
+
         return $this->render('app/panel/Index.html.twig', [
             'articles' => $articles,
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'contracts' => $contracts
         ]);
     }
 }

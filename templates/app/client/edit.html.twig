@@ -138,7 +138,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Devi(s)
+                    Devis
                 </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -212,11 +212,56 @@
                     {% endif %}
                     <div class="p-3" align="center">
                         <a href="{{ path('app_document_file_add', {id: client.getId}) }}" class="btn btn-success">Ajouter un document</a>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+        <!-- contracts -->
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12" align="center">
+                    <h2>Contrat(s)</h2>
+                </div>
+                {% if client.getContracts is empty %}
+                    <div class="col-12">
+                        <p>Aucun contrat n'est affilié à ce client.</p>
+                    </div>
+                {% else %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Type de contrat</th>
+                            <th scope="col">Date de fin</th>
+                            <th scope="col">Consulter</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contract in client.getContracts %}
+                            <tr>
+                                <th scope="row">{{ contract.getId }}</th>
+                                <td>{{ contract.getTitle }}</td>
+                                <td>{{ contract.getContractTypeString }}</td>
+                                <td>{{ contract.getEndAt|date('j/m/Y') }}</td>
+                                <td><a href="{{ path('app_client_contract_edit', {contract: contract.getId}) }}" target="_blank" class="btn btn-primary">Voir le contrat</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <div class="col-12" align="center">
+                    <a href="{{ path('app_client_contract_add', {client: client.getId}) }}" class="btn btn-success">Ajouter un contrat</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

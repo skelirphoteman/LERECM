@@ -1,0 +1,42 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Créer un Contrat{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_contract) }}
+            {{ form_errors(form_contract) }}
+            <div class="row">
+                <div class="col-12 mt-2">
+                    {{ form_row(form_contract.title) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_contract.contract_type) }}
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                    {{ form_row(form_contract.start_at) }}
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                    {{ form_row(form_contract.end_at) }}
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                    {{ form_row(form_contract.next_payment_at) }}
+                </div>
+                <div class="col-12 col-sm-12 col-lg-6 mt-2">
+                    {{ form_row(form_contract.price) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_contract.state) }}
+                </div>
+                <div class="col-12 mt-2">
+                    <input type="submit" value="Ajouter" class="btn btn-success">
+                </div>
+            </div>
+            {{ form_end(form_contract) }}
+
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('add_client_js') }}
+{% endblock %}
