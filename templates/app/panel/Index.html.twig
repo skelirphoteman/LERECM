@@ -5,15 +5,15 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-8">
-                <div class="card p-4">
+            <div class="col-12 col-lg-8">
+                <div class="card p-1">
                     <div class="row">
                         <div class="col-12">
                             <div class="card ">
                                 <div class="card-header" align="center">
                                     Dernier(s) clients ajouté
                                 </div>
-                                <div class="card-body p-2">
+                                <div class="card-body p-2" style="overflow-x: auto;">
                                     {% if app.user.getCompany.getClients is not null %}
                                     <table class="table table-bordered">
                                         <thead class="table-dark">
@@ -43,6 +43,42 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="card ">
+                                <div class="card-header" align="center">
+                                    Rappel des prochains paiements de contrat
+                                </div>
+                                <div class="card-body p-2" style="overflow-x: auto;">
+                                    {% if contracts is not empty %}
+                                        <table class="table table-bordered">
+                                            <thead class="table-success">
+                                            <tr>
+                                                <th>Titre</th>
+                                                <th>Prochain paiement</th>
+                                                <th>Paiement reçu</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for contract in contracts%}
+                                                <tr>
+                                                    <td><a href="{{ path('app_client_contract_edit', {contract: contract.id}) }}">{{ contract.title }}</a></td>
+                                                    <td>{{ contract.next_payment_at|date('d/m/Y') }}</td>
+                                                    <td><a href="{{ path('app_client_contract_nextpayment', {contract: contract.id}) }}" class="btn btn-success btn-sm">Payé</a></td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+
+                                    {% else %}
+                                        <h3 align="center">Aucun paiement prévue</h3>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="col-12 mt-4">
                             {% if articles is not empty %}
                                 <h3 align="center">Nos derniers articles</h3>
@@ -64,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-lg-4">
                 <div class="card">
                     <div class="row">
                         <div class="col-12 mt-2">

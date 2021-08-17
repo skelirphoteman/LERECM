@@ -22,19 +22,25 @@ class ContractRepository extends ServiceEntityRepository
     // /**
     //  * @return Contract[] Returns an array of Contract objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findContractByCompany($company)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+
+        $fields = array('c.id', 'c.title', 'c.next_payment_at');
+
+        $query = $this->getEntityManager()->createQueryBuilder();
+        $query
+            ->select($fields)
+            ->from('App\Domain\Contract\Entity\Contract', 'c')
+            ->innerJoin('c.client', 'e')
+            ->where('c.state = 1 OR c.state = 0')
+            ->andWhere('e.company = :id')
+            ->setParameter('id', $company)
+            ->orderBy('c.next_payment_at', 'ASC')
         ;
+
+        $results = $query->getQuery()->getResult();
+        return $results;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Contract

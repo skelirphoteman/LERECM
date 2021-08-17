@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Interface Administrateur{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Interface Administrateur{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('base') }}
-            {{ encore_entry_link_tags('general') }}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('base') }}
+        {{ encore_entry_link_tags('general') }}
 
-        {% endblock %}
+    {% endblock %}
 
-        {% block javascript %}
-            {{ encore_entry_script_tags('basejs') }}
-        {% endblock %}
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ path('admin_index') }}">LERECM</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('admin_client_add') }}">Ajouter un client</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Support
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="supportDropdown">
-                            <li><a class="dropdown-item" href="{{ path('admin_support_ticket_list') }}">Liste des tickets</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="articlesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Articles
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="articlesDropdown">
-                            <li><a class="dropdown-item" href="{{ path('admin_article_list') }}">Liste des Articles</a></li>
-                            <li><a class="dropdown-item" href="{{ path('admin_article_add', {article: null}) }}">Ajouter un Article</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('app_index') }}" class="nav-link btn btn-success">Retour sur le panel</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    {% block javascript %}
+    {{ encore_entry_script_tags('basejs') }}
+{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <div class="p-3">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% for message in app.flashes('danger') %}
-                <div class="alert alert-danger">
-                    {{ message }}
-                </div>
-            {% endfor %}
+        <a class="navbar-brand" href="{{ path('admin_index') }}">LERECM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('admin_client_add') }}">Ajouter un client</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="supportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Support
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="supportDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_support_ticket_list') }}">Liste des tickets</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="articlesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Articles
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="articlesDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_article_list') }}">Liste des Articles</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_article_add', {article: null}) }}">Ajouter un Article</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_index') }}" class="nav-link btn btn-success">Retour sur le panel</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <section class="container p-5">
-        {% block body %}{% endblock %}
-    </section>
-    {% block javascripts %}
-        {{ encore_entry_script_tags('basejs') }}
-    {% endblock %}
-    </body>
+<div class="container-fluid">
+    <div class="p-3">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<section class="container p-5">
+    {% block body %}{% endblock %}
+</section>
+{% block javascripts %}
+    {{ encore_entry_script_tags('basejs') }}
+{% endblock %}
+</body>
 </html>
