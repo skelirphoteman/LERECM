@@ -3,6 +3,9 @@
 namespace App\Domain\Contract\Entity;
 
 use App\Domain\Contract\Repository\ContractRepository;
+use App\Domain\Documents\Entity\Invoice;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \App\Domain\Client\Entity\Client;
 use PhpParser\Node\Scalar\String_;
@@ -59,6 +62,16 @@ class Contract
      * @ORM\Column(type="float")
      */
     private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="contract")
+     */
+    private $invoices;
+
+    public function __construct()
+    {
+        $this->invoices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -174,5 +187,35 @@ class Contract
         if ($this->next_payment_at >= $this->end_at) return false;
 
         return true;
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getContract() === $this) {
+                $invoice->setContract(null);
+            }
+        }
+
+        return $this;
     }
 }

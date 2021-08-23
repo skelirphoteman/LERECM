@@ -64,7 +64,7 @@
                                                 <tr>
                                                     <td><a href="{{ path('app_client_contract_edit', {contract: contract.id}) }}">{{ contract.title }}</a></td>
                                                     <td>{{ contract.next_payment_at|date('d/m/Y') }}</td>
-                                                    <td><a href="{{ path('app_client_contract_nextpayment', {contract: contract.id}) }}" class="btn btn-success btn-sm">Payé</a></td>
+                                                    <td><a class="btn btn-success btn-sm">Payé</a></td>
                                                 </tr>
                                             {% endfor %}
 

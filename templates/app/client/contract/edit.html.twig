@@ -51,6 +51,56 @@
                     {{ form_end(form_contract) }}
                 </div>
             </div>
+
+
+
+            <!-- Documents -->
+
+
+
+            <div class="accordion pt-2" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Facture(s)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% if contract.getInvoices is empty %}
+                                <strong>Aucune facture crée pour ce client.</strong>
+                            {% else %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prix</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Consulter</th>
+                                        <th scope="col">Supprimer</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for invoice in contract.getInvoices %}
+                                        <tr>
+                                            <th scope="row">{{ invoice.getId }}</th>
+                                            <td>{{ invoice.getName }}</td>
+                                            <td>{{ invoice.getPrice }}€</td>
+                                            <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
+                                            <td><a href="{{ path('app_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                            <td><a href="{{ path('app_document_invoice_delete', {invoice: invoice.getId}) }}" class="btn btn-danger delete_invoice">Supprimer</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 

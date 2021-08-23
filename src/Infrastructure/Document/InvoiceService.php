@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Document;
 
 use App\Infrastructure\FileUploader\FileUploader;
+use App\Infrastructure\Security\DocumentSecurity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Domain\User\Entity\User;
@@ -18,13 +19,17 @@ class InvoiceService
 
     private $filesystem;
 
+    private $documentSecurity;
+
     public function __construct(EntityManagerInterface $entityManager,
                                 FileUploader $fileUploader,
-                                Filesystem $filesystem)
+                                Filesystem $filesystem,
+                                DocumentSecurity $documentSecurity)
     {
         $this->entityManager = $entityManager;
         $this->fileUploader = $fileUploader;
         $this->filesystem = $filesystem;
+        $this->documentSecurity = $documentSecurity;
     }
 
     private function accessIsValid(User $user) : bool
@@ -89,6 +94,13 @@ class InvoiceService
     {
         if(!$this->accessIsValid($user)){
             return "Vous ne pouvez pas ajouter de facture. Veuillez vérifier que votre abonnement est toujours valide.";
+        }
+
+        if($invoice->getContract() != null)
+        {
+            if(!$this->documentSecurity->contractIsValid($invoice->getContract(), $invoice->getClient()->getId())){
+                return "Une erreur c'est produite. La liaison entre le contrat et la facture ne peut pas se faire.";
+            }
         }
 
         if(!$this->insertFile($file, $invoice, $user))

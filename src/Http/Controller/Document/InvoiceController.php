@@ -52,7 +52,7 @@ class InvoiceController extends AbstractController
         $invoice = new Invoice();
         $invoice->setClient($client);
 
-        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice);
+        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice, ['client_id' => $client->getId()]);
 
         $formInvoice->handleRequest($request);
 
@@ -77,6 +77,47 @@ class InvoiceController extends AbstractController
         return $this->render('app/client/document/invoice/add.html.twig', [
             'form_invoice' => $formInvoice->createView(),
             'client' => $client
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{invoice}", name="app_document_invoice_edit")
+     */
+    public function editInvoice(Invoice $invoice = null,
+                               Request $request,
+                               InvoiceService $invoiceService) : Response
+    {
+        if(!$invoice){
+            throw $this->createNotFoundException('Aucune facture trouvé');
+        }
+
+        $this->accessService->companyClientAccess($invoice->getClient());
+
+        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice);
+
+        $formInvoice->handleRequest($request);
+
+        if ($formInvoice->isSubmitted() && $formInvoice->isValid()) {
+            $invoiceFile = $formInvoice->get('filename')->getData();
+            $invoice = $formInvoice->getData();
+
+            if ($invoiceFile) {
+                $InvoiceFileName = $invoiceService->addInvoice($invoiceFile, $invoice, $this->getUser());
+                if($InvoiceFileName)
+                {
+                    $this->addFlash('danger', $InvoiceFileName);
+                }else
+                {
+                    $this->addFlash('success', "Facture bien enregistré.");
+                    return $this->redirectToRoute("app_client_edit", ["id" => $invoice->getClient()->getId()]);
+                }
+            }
+
+        }
+
+        return $this->render('app/client/document/invoice/add.html.twig', [
+            'form_invoice' => $formInvoice->createView(),
+            'client' => $invoice->getClient()
         ]);
     }
 
