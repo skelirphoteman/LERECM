@@ -115,9 +115,11 @@ class InvoiceController extends AbstractController
 
         }
 
-        return $this->render('app/client/document/invoice/add.html.twig', [
+        return $this->render('app/client/document/invoice/edit.html.twig', [
             'form_invoice' => $formInvoice->createView(),
-            'client' => $invoice->getClient()
+            'client' => $invoice->getClient(),
+            'contract' => $invoice->getContract(),
+            'invoice_id' => $invoice->getId(),
         ]);
     }
 

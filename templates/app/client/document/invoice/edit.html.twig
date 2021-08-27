@@ -1,0 +1,46 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}Modifier une Facture {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form_invoice) }}
+            {{ form_errors(form_invoice) }}
+            <h2 class="p-2"> Modifier la facture du client {% if client.getSurname is not empty and client.getName is not empty %} [{{ client.getSurname}} {{ client.getName }} {% endif %}] :</h2>
+            <div class="row">
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_invoice.name) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_invoice.price) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_invoice.state) }}
+                </div>
+                <div class="col-12 col-sm-6 mt-2">
+                    {{ form_row(form_invoice.filename) }}
+                </div>
+                <div class="col-12 mt-2">
+                    <br>
+                    {% if contract is not null %}
+                        <p>Cette facture est déjà lié au contrat <strong>{{ contract.getTitle }}</strong>.</p>
+                    {% else %}
+                        <p>Cette facture n'est actuellement lié à aucun contrat.</p>
+                    {% endif %}
+                    {{ form_row(form_invoice.contract) }}
+                </div>
+            </div>
+
+            <div class="p-2" align="center">
+                <input type="submit" value="Modifier la facture" class="btn btn-primary">
+                <a href="{{ path('app_document_invoice_delete', {invoice: invoice_id}) }}" class="btn btn-danger delete_invoice">Supprimer la facture</a>
+            </div>
+
+
+            {{ form_end(form_invoice) }}
+        </div>
+    </div>
+    {{ encore_entry_script_tags('edit_client_js') }}
+
+{% endblock %}

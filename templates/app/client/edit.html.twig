@@ -112,7 +112,7 @@
                                 <th scope="col">Prix</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Consulter</th>
-                                <th scope="col">Supprimer</th>
+                                <th scope="col">Modifier</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -123,7 +123,7 @@
                                     <td>{{ invoice.getPrice }}€</td>
                                     <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
                                     <td><a href="{{ path('app_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
-                                    <td><a href="{{ path('app_document_invoice_delete', {invoice: invoice.getId}) }}" class="btn btn-danger delete_invoice">Supprimer</a></td>
+                                    <td><a href="{{ path('app_document_invoice_edit', {invoice: invoice.getId}) }}" class="btn btn-info">Modifier</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -248,7 +248,7 @@
                                 <td>{{ contract.getTitle }}</td>
                                 <td>{{ contract.getContractTypeString }}</td>
                                 <td>{{ contract.getEndAt|date('j/m/Y') }}</td>
-                                <td><a href="{{ path('app_client_contract_edit', {contract: contract.getId}) }}" target="_blank" class="btn btn-primary">Voir le contrat</a></td>
+                                <td><a href="{{ path('app_client_contract_edit', {contract: contract.getId}) }}" class="btn btn-primary">Voir le contrat</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

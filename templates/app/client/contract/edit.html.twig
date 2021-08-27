@@ -89,7 +89,7 @@
                                             <td>{{ invoice.getPrice }}€</td>
                                             <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
                                             <td><a href="{{ path('app_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
-                                            <td><a href="{{ path('app_document_invoice_delete', {invoice: invoice.getId}) }}" class="btn btn-danger delete_invoice">Supprimer</a></td>
+                                            <td><a href="{{ path('app_document_invoice_edit', {invoice: invoice.getId}) }}" class="btn btn-info">Modifier</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
