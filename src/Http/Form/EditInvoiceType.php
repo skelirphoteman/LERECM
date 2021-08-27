@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
 
-class AddInvoiceType extends AbstractType
+class EditInvoiceType extends AbstractType
 {
 
     private $client;
@@ -42,7 +42,7 @@ class AddInvoiceType extends AbstractType
 
                 'mapped' => false,
 
-                'required' => true,
+                'required' => false,
 
                 'constraints' => [
                     new File([

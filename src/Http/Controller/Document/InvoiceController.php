@@ -7,6 +7,7 @@ use App\Domain\Client\Entity\Client;
 use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
 use App\Http\Form\AddInvoiceType;
+use App\Http\Form\EditInvoiceType;
 use App\Infrastructure\Client\ClientService;
 use App\Infrastructure\User\UserClientService;
 use App\Infrastructure\Document\InvoiceService;
@@ -87,13 +88,13 @@ class InvoiceController extends AbstractController
                                Request $request,
                                InvoiceService $invoiceService) : Response
     {
-        if(!$invoice){
+        if(!$invoice){ // check if invoice exist
             throw $this->createNotFoundException('Aucune facture trouvé');
         }
 
-        $this->accessService->companyClientAccess($invoice->getClient());
+        $this->accessService->companyClientAccess($invoice->getClient()); // if is client's company
 
-        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice);
+        $formInvoice = $this->createForm(EditInvoiceType::class, $invoice, ['client_id' => $invoice->getClient()->getId()]); // create form
 
         $formInvoice->handleRequest($request);
 
@@ -101,17 +102,16 @@ class InvoiceController extends AbstractController
             $invoiceFile = $formInvoice->get('filename')->getData();
             $invoice = $formInvoice->getData();
 
-            if ($invoiceFile) {
-                $InvoiceFileName = $invoiceService->addInvoice($invoiceFile, $invoice, $this->getUser());
-                if($InvoiceFileName)
-                {
-                    $this->addFlash('danger', $InvoiceFileName);
-                }else
-                {
-                    $this->addFlash('success', "Facture bien enregistré.");
-                    return $this->redirectToRoute("app_client_edit", ["id" => $invoice->getClient()->getId()]);
-                }
+            $InvoiceFileName = $invoiceService->editInvoice($invoice, $this->getUser(), $invoiceFile);
+            if($InvoiceFileName)
+            {
+                $this->addFlash('danger', $InvoiceFileName);
+            }else
+            {
+                $this->addFlash('success', "Facture bien enregistré.");
+                return $this->redirectToRoute("app_client_edit", ["id" => $invoice->getClient()->getId()]);
             }
+
 
         }
 
