@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
 
-class AddFileType extends AbstractType
+class EditFileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,7 +32,7 @@ class AddFileType extends AbstractType
 
                 'mapped' => false,
 
-                'required' => true,
+                'required' => false,
 
                 'constraints' => [
                     new File([

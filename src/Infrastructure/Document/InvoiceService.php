@@ -121,18 +121,11 @@ class InvoiceService
      */
     private function updateFile(Invoice $invoice, $user, ?UploadedFile $file = null) : ?bool
     {
+        $this->insertInvoice($invoice);
+
         if($file != null)
         {
             $path = $this->getPath($user);
-
-        }
-
-
-        $this->insertInvoice($invoice);
-
-
-        if($file != null)
-        {
             $fileName = $invoice->getId() . '-' . $invoice->getFileName();
 
             $invoice->setFilename($fileName);

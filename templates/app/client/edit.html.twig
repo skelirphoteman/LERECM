@@ -194,7 +194,7 @@
                                 <th scope="col">Nom</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Consulter</th>
-                                <th scope="col">Supprimer</th>
+                                <th scope="col">Modifier</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -204,7 +204,7 @@
                                     <td>{{ file.getName }}</td>
                                     <td>{{ file.getCreatedAt|date('j/m/Y') }}</td>
                                     <td><a href="{{ path('app_document_file_view', {file: file.getId}) }}" target="_blank" class="btn btn-primary">Voir le document</a></td>
-                                    <td><a href="{{ path('app_document_file_delete', {file: file.getId}) }}" class="btn btn-danger delete_document">Supprimer</a></td>
+                                    <td><a href="{{ path('app_document_file_edit', {file: file.getId}) }}" class="btn btn-info">Modifier</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

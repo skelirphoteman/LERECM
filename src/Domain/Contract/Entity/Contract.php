@@ -3,6 +3,7 @@
 namespace App\Domain\Contract\Entity;
 
 use App\Domain\Contract\Repository\ContractRepository;
+use App\Domain\Documents\Entity\File;
 use App\Domain\Documents\Entity\Invoice;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -68,9 +69,15 @@ class Contract
      */
     private $invoices;
 
+    /**
+     * @ORM\OneToMany(targetEntity=File::class, mappedBy="contract")
+     */
+    private $files;
+
     public function __construct()
     {
         $this->invoices = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +220,36 @@ class Contract
             // set the owning side to null (unless already changed)
             if ($invoice->getContract() === $this) {
                 $invoice->setContract(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|File[]
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): self
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getContract() === $this) {
+                $file->setContract(null);
             }
         }
 
