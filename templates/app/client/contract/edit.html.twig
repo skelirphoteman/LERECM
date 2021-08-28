@@ -46,6 +46,7 @@
                             {% if contract.nextPaymentIsValid %}
                             <a href="{{ path('app_client_contract_nextpayment', {contract: contract.getId}) }}" class="btn btn-secondary">Paiement du {{ contract.getNextPaymentAt|date('j/m/Y') }} reçu</a>
                             {% endif %}
+                            <a href="{{ path('app_client_contract_delete', {contract: contract.getId}) }}" class="btn btn-danger delete_alert">Supprimer</a>
                         </div>
                     </div>
                     {{ form_end(form_contract) }}
@@ -68,7 +69,7 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             {% if contract.getInvoices is empty %}
-                                <strong>Aucune facture crée pour ce client.</strong>
+                                <strong>Aucune facture liée avec ce contrat.</strong>
                             {% else %}
                                 <table class="table">
                                     <thead>
@@ -108,7 +109,7 @@
                     <div id="collapseFile" class="accordion-collapse collapse" aria-labelledby="headingFile" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             {% if contract.getFiles is empty %}
-                                <strong>Aucun Document crée pour ce client.</strong>
+                                <strong>Aucun Document lié avec ce contrat.</strong>
                             {% else %}
                                 <table class="table">
                                     <thead>

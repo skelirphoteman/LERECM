@@ -196,6 +196,22 @@ class Contract
         return true;
     }
 
+    public function getStateBadge() : String
+    {
+        if($this->state == 0) return "bg-primary";
+        if($this->state == 1) return "bg-success";
+        if($this->state == 2) return "bg-dark";
+        if($this->state == 3) return "bg-danger";
+    }
+
+    public function getStateString() : String
+    {
+        if($this->state == 0) return "créer";
+        if($this->state == 1) return "en cours";
+        if($this->state == 2) return "terminé";
+        if($this->state == 3) return "résilié";
+    }
+
     /**
      * @return Collection|Invoice[]
      */

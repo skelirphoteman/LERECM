@@ -163,7 +163,7 @@ class FileService
             }
         }
 
-        if(!$this->insertFile($file, $doc, $user))
+        if(!$this->insertFile($doc, $user, $file))
         {
             return "Une erreur c'est produite";
         }

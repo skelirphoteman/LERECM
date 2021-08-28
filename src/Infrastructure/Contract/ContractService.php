@@ -26,6 +26,13 @@ class ContractService
         $em->flush();
     }
 
+    private function removeContract(Contract $contract)
+    {
+        $em = $this->entityManager;
+        $em->remove($contract);
+        $em->flush();
+    }
+
     public function addContract(Contract $contract) : ?String
     {
         $subscription = $this->access->subscriptionIsValid();
@@ -67,6 +74,19 @@ class ContractService
         $contract->setNextPaymentAt($nextPayment);
 
         $this->insertContract($contract);
+        return null;
+    }
+
+
+    public function deleteContract(Contract $contract) : ?String
+    {
+        $subscription = $this->access->subscriptionIsValid();
+        if(!$subscription)
+        {
+            $this->removeContract($contract);
+        }else {
+            return $subscription;
+        }
         return null;
     }
 

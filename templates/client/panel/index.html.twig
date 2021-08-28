@@ -173,6 +173,40 @@
                 </div>
             </div>
         </div>
+        <!-- Contract -->
+        <div class="col-12 mt-2">
+            <h2 align="center">Vos contrats :</h2>
+            <div class="container">
+                <div class="row">
+                    {% if contracts is empty %}
+                        <div class="col-12 mt-2">
+                            <p align="center">Aucun contrat enregistrée.</p>
+                        </div>
+                    {% else %}
+                        {% for contract in contracts %}
+                        <div class="col-12 mt-2">
+                            <div class="card">
+                                <div class="card-header" align="center">
+                                    <h3>{{ contract.getTitle }}</h3>
+                                </div>
+                                <div class="card-body text-left">
+                                    <ul>
+                                        <li>Début du contrat : <strong>{{ contract.getStartAt|date('d/m/Y') }}</strong></li>
+                                        <li>Fin du contrat : <strong>{{ contract.getEndAt|date('d/m/Y') }}</strong></li>
+                                        <li>Type de contrat : <strong>{{ contract.getContractTypeString }}</strong></li>
+                                        <li>Montant : <strong>{{ contract.getPrice }}€</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer " align="center">
+                                    <p class="badge rounded-pill {{ contract.getStateBadge }}">{{ contract.getStateString }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% block javascripts %}
