@@ -7,6 +7,7 @@ use App\Domain\Client\Entity\Client;
 use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
 use App\Http\Form\AddInvoiceType;
+use App\Http\Form\EditInvoiceType;
 use App\Infrastructure\Client\ClientService;
 use App\Infrastructure\User\UserClientService;
 use App\Infrastructure\Document\InvoiceService;
@@ -52,7 +53,7 @@ class InvoiceController extends AbstractController
         $invoice = new Invoice();
         $invoice->setClient($client);
 
-        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice);
+        $formInvoice = $this->createForm(AddInvoiceType::class, $invoice, ['client_id' => $client->getId()]);
 
         $formInvoice->handleRequest($request);
 
@@ -77,6 +78,48 @@ class InvoiceController extends AbstractController
         return $this->render('app/client/document/invoice/add.html.twig', [
             'form_invoice' => $formInvoice->createView(),
             'client' => $client
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{invoice}", name="app_document_invoice_edit")
+     */
+    public function editInvoice(Invoice $invoice = null,
+                               Request $request,
+                               InvoiceService $invoiceService) : Response
+    {
+        if(!$invoice){ // check if invoice exist
+            throw $this->createNotFoundException('Aucune facture trouvé');
+        }
+
+        $this->accessService->companyClientAccess($invoice->getClient()); // if is client's company
+
+        $formInvoice = $this->createForm(EditInvoiceType::class, $invoice, ['client_id' => $invoice->getClient()->getId()]); // create form
+
+        $formInvoice->handleRequest($request);
+
+        if ($formInvoice->isSubmitted() && $formInvoice->isValid()) {
+            $invoiceFile = $formInvoice->get('filename')->getData();
+            $invoice = $formInvoice->getData();
+
+            $InvoiceFileName = $invoiceService->editInvoice($invoice, $this->getUser(), $invoiceFile);
+            if($InvoiceFileName)
+            {
+                $this->addFlash('danger', $InvoiceFileName);
+            }else
+            {
+                $this->addFlash('success', "Facture bien enregistré.");
+                return $this->redirectToRoute("app_client_edit", ["id" => $invoice->getClient()->getId()]);
+            }
+
+
+        }
+
+        return $this->render('app/client/document/invoice/edit.html.twig', [
+            'form_invoice' => $formInvoice->createView(),
+            'client' => $invoice->getClient(),
+            'contract' => $invoice->getContract(),
+            'invoice_id' => $invoice->getId(),
         ]);
     }
 

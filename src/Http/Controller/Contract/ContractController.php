@@ -117,10 +117,40 @@ class ContractController extends AbstractController
             $this->addFlash('danger', $contractResponse);
         }else
         {
-            $this->addFlash('success', "Date de payment bien mis à jour !");
+            $this->addFlash('success', "Date de paiement bien mis à jour !");
         }
 
+        if($request->get('redirection') == 0)
+        {
+            return $this->redirectToRoute("app_index");
+
+        }
         return $this->redirectToRoute("app_client_contract_edit", ["contract" => $contract->getId()]);
+    }
+
+    /**
+     * @Route("/delete/{contract}", name="app_client_contract_delete")
+     */
+    public function deleteContract(Contract $contract = null,ContractService $contractService) : Response
+    {
+
+        if(!$contract){
+            throw $this->createNotFoundException('Aucun abonnement trouvé');
+        }
+
+        $this->accessService->companyClientAccess($contract->getClient());
+
+        $delete = $contractService->deleteContract($contract);
+
+        if($delete)
+        {
+            $this->addFlash('danger', $delete);
+        }else
+        {
+            $this->addFlash('success', "L'abonnement a bien été supprimer.");
+        }
+
+        return $this->redirectToRoute('app_client_edit', ["id" => $contract->getClient()->getId()]);
     }
 
 }

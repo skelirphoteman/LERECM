@@ -3,6 +3,7 @@
 namespace App\Http\Controller\UserClient;
 
 use App\Domain\Client\Entity\Client;
+use App\Domain\Contract\Entity\Contract;
 use App\Domain\Documents\Entity\Invoice;
 use App\Domain\Documents\Entity\Quote;
 use App\Domain\Documents\Entity\File as Doc;
@@ -48,12 +49,17 @@ class UserClientController extends AbstractController
             ->getRepository(Doc::class)
             ->findBy(["client" => $client], ["created_at" => "DESC"]);
 
+        $contracts = $this->getDoctrine()
+            ->getRepository(Contract::class)
+            ->findBy(["client" => $client]);
+
 
         return $this->render('client/panel/index.html.twig', [
             'client' => $client,
             'invoices' => $invoices,
             'quotes' => $quotes,
             'files' => $files,
+            'contracts' => $contracts,
         ]);
     }
 

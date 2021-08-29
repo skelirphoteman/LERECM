@@ -7,6 +7,7 @@ use App\Domain\Client\Entity\Client;
 use App\Domain\UserClient\Entity\UserClient;
 use App\Http\Form\AddClientType;
 use App\Http\Form\AddFileType;
+use App\Http\Form\EditFileType;
 use App\Infrastructure\Client\ClientService;
 use App\Infrastructure\User\UserClientService;
 use App\Infrastructure\Document\FileService;
@@ -52,7 +53,7 @@ class FileController extends AbstractController
         $file = new Doc();
         $file->setClient($client);
 
-        $formFile = $this->createForm(AddFileType::class, $file);
+        $formFile = $this->createForm(AddFileType::class, $file, ["client_id" => $id]);
 
         $formFile->handleRequest($request);
 
@@ -77,6 +78,48 @@ class FileController extends AbstractController
         return $this->render('app/client/document/file/add.html.twig', [
             'form_file' => $formFile->createView(),
             'client' => $client
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{file}", name="app_document_file_edit")
+     */
+    public function editFile(Doc $file = null,
+                            Request $request,
+                            FileService $fileService) : Response
+    {
+        if(!$file){
+            throw $this->createNotFoundException('Aucun document trouvé');
+        }
+
+        $this->accessService->companyClientAccess($file->getClient());
+
+        $formFile = $this->createForm(EditFileType::class, $file, ["client_id" => $file->getClient()->getId()]);
+
+        $formFile->handleRequest($request);
+
+        if ($formFile->isSubmitted() && $formFile->isValid()) {
+            $fileFile = $formFile->get('filename')->getData();
+            $file = $formFile->getData();
+
+            $fileName = $fileService->editFile($file, $this->getUser(), $fileFile);
+            if($fileName)
+            {
+                $this->addFlash('danger', $fileName);
+            }else
+            {
+                $this->addFlash('success', "Document bien enregistré.");
+                return $this->redirectToRoute("app_client_edit", ["id" => $file->getClient()->getId()]);
+            }
+
+
+        }
+
+        return $this->render('app/client/document/file/edit.html.twig', [
+            'form_file' => $formFile->createView(),
+            'client' => $file->getClient(),
+            'contract' => $file->getContract(),
+            'file_id' => $file->getId()
         ]);
     }
 

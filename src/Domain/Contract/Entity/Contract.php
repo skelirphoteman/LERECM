@@ -3,6 +3,10 @@
 namespace App\Domain\Contract\Entity;
 
 use App\Domain\Contract\Repository\ContractRepository;
+use App\Domain\Documents\Entity\File;
+use App\Domain\Documents\Entity\Invoice;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \App\Domain\Client\Entity\Client;
 use PhpParser\Node\Scalar\String_;
@@ -59,6 +63,22 @@ class Contract
      * @ORM\Column(type="float")
      */
     private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="contract")
+     */
+    private $invoices;
+
+    /**
+     * @ORM\OneToMany(targetEntity=File::class, mappedBy="contract")
+     */
+    private $files;
+
+    public function __construct()
+    {
+        $this->invoices = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -174,5 +194,81 @@ class Contract
         if ($this->next_payment_at >= $this->end_at) return false;
 
         return true;
+    }
+
+    public function getStateBadge() : String
+    {
+        if($this->state == 0) return "bg-primary";
+        if($this->state == 1) return "bg-success";
+        if($this->state == 2) return "bg-dark";
+        if($this->state == 3) return "bg-danger";
+    }
+
+    public function getStateString() : String
+    {
+        if($this->state == 0) return "créer";
+        if($this->state == 1) return "en cours";
+        if($this->state == 2) return "terminé";
+        if($this->state == 3) return "résilié";
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getContract() === $this) {
+                $invoice->setContract(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|File[]
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): self
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getContract() === $this) {
+                $file->setContract(null);
+            }
+        }
+
+        return $this;
     }
 }

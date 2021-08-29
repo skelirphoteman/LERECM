@@ -2,9 +2,11 @@
 
 namespace App\Http\Form;
 
+use App\Domain\Client\Entity\Client;
 use App\Domain\Contract\Entity\Contract;
 use App\Domain\Contract\Repository\ContractRepository;
-use App\Domain\Documents\Entity\File as Doc;
+use App\Domain\Documents\Entity\Invoice;
+use App\Domain\Documents\Repository\InvoiceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,13 +18,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
 
-class AddFileType extends AbstractType
+class EditInvoiceType extends AbstractType
 {
+
+    private $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
         $client_id = $options['client_id'];
-
 
         $builder
             ->add('filename', FileType::class, [
@@ -32,7 +42,7 @@ class AddFileType extends AbstractType
 
                 'mapped' => false,
 
-                'required' => true,
+                'required' => false,
 
                 'constraints' => [
                     new File([
@@ -46,8 +56,25 @@ class AddFileType extends AbstractType
                 ],
             ])
             ->add('name', TextType::class, [
-                'attr' => ['class' => 'form-control', "placeholder" => "Nom du document"],
+                'attr' => ['class' => 'form-control', "placeholder" => "Nom de la facture"],
                 'label' => false,
+                'required' => true
+            ])
+            ->add('price', NumberType::class, [
+                'attr' => ['class' => 'form-control', "placeholder" => "Montant de la facture"],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('state', ChoiceType::class, [
+                'attr' => ['class' => 'form-control'],
+                'label' => false,
+                'mapped' => true,
+                'expanded' => true,
+                'multiple' => false,
+                'choices' => [
+                    'En attente de paiement ' => "0",
+                    'Payé ' => "1"
+                ],
                 'required' => true
             ])
             ->add('contract', EntityType::class, [
@@ -74,7 +101,7 @@ class AddFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Doc::class,
+            'data_class' => Invoice::class,
             'client_id' => null,
         ]);
     }

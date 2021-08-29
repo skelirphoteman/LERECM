@@ -46,9 +46,96 @@
                             {% if contract.nextPaymentIsValid %}
                             <a href="{{ path('app_client_contract_nextpayment', {contract: contract.getId}) }}" class="btn btn-secondary">Paiement du {{ contract.getNextPaymentAt|date('j/m/Y') }} reçu</a>
                             {% endif %}
+                            <a href="{{ path('app_client_contract_delete', {contract: contract.getId}) }}" class="btn btn-danger delete_alert">Supprimer</a>
                         </div>
                     </div>
                     {{ form_end(form_contract) }}
+                </div>
+            </div>
+
+
+
+            <!-- Documents -->
+
+
+
+            <div class="accordion pt-2" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Facture(s)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% if contract.getInvoices is empty %}
+                                <strong>Aucune facture liée avec ce contrat.</strong>
+                            {% else %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prix</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Consulter</th>
+                                        <th scope="col">Supprimer</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for invoice in contract.getInvoices %}
+                                        <tr>
+                                            <th scope="row">{{ invoice.getId }}</th>
+                                            <td>{{ invoice.getName }}</td>
+                                            <td>{{ invoice.getPrice }}€</td>
+                                            <td>{{ invoice.getCreatedAt|date('j/m/Y') }}</td>
+                                            <td><a href="{{ path('app_document_invoice_view', {invoice: invoice.getId}) }}" target="_blank" class="btn btn-primary">Voir la Facture</a></td>
+                                            <td><a href="{{ path('app_document_invoice_edit', {invoice: invoice.getId}) }}" class="btn btn-info">Modifier</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFile">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFile" aria-expanded="false" aria-controls="collapseFile">
+                            Document(s) divers
+                        </button>
+                    </h2>
+                    <div id="collapseFile" class="accordion-collapse collapse" aria-labelledby="headingFile" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% if contract.getFiles is empty %}
+                                <strong>Aucun Document lié avec ce contrat.</strong>
+                            {% else %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Consulter</th>
+                                        <th scope="col">Modifier</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for file in contract.getFiles %}
+                                        <tr>
+                                            <th scope="row">{{ file.getId }}</th>
+                                            <td>{{ file.getName }}</td>
+                                            <td>{{ file.getCreatedAt|date('j/m/Y') }}</td>
+                                            <td><a href="{{ path('app_document_file_view', {file: file.getId}) }}" target="_blank" class="btn btn-primary">Voir le document</a></td>
+                                            <td><a href="{{ path('app_document_file_edit', {file: file.getId}) }}" class="btn btn-info">Modifier</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

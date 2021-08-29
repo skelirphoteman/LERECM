@@ -2,6 +2,7 @@
 
 namespace App\Domain\Documents\Entity;
 
+use App\Domain\Contract\Entity\Contract;
 use App\Domain\Documents\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Documents\Entity\Document;
@@ -35,6 +36,11 @@ class Invoice extends Document
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="invoices")
+     */
+    private $contract;
 
     public function __construct()
     {
@@ -86,5 +92,17 @@ class Invoice extends Document
             '/invoice/' .
             $this->getFilename() .
             '.pdf';
+    }
+
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): self
+    {
+        $this->contract = $contract;
+
+        return $this;
     }
 }

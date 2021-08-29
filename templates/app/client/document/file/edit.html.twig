@@ -15,17 +15,27 @@
                 <div class="col-12 col-sm-6 mt-2">
                     {{ form_row(form_file.filename) }}
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-2">
+                    <br>
+                    {% if contract is not null %}
+                        <p>Ce document est déjà lié au contrat <strong>{{ contract.getTitle }}</strong>.</p>
+                    {% else %}
+                        <p>Cette document n'est actuellement lié à aucun contrat.</p>
+                    {% endif %}
                     {{ form_row(form_file.contract) }}
                 </div>
             </div>
 
             <div class="p-2" align="center">
-                <input type="submit" value="Ajouter au client" class="btn btn-primary">
+                <input type="submit" value="Modifier le document" class="btn btn-primary">
+                <a href="{{ path('app_document_file_delete', {file: file_id}) }}" class="btn btn-danger delete_document">Supprimer la facture</a>
             </div>
 
             {{ form_end(form_file) }}
         </div>
     </div>
+
+    {{ encore_entry_script_tags('edit_client_js') }}
+
 
 {% endblock %}
