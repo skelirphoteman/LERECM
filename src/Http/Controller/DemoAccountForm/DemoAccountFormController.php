@@ -17,6 +17,7 @@ class DemoAccountFormController extends AbstractController
      */
     public function addDemoAccountForm() : Response
     {
+
         return $this->render('core/demoAccountForm/add.html.twig');
     }
 
