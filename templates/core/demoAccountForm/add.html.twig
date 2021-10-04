@@ -1,11 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Acceuil{% endblock %}
+{% block title %}Demander un compte de Démo{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
-            test
+            {{ form_start(form_demoaccountform) }}
+            {{ form_errors(form_demoaccountform) }}
+            <div class="row">
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.name) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.email) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.phone) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.city) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.find_by) }}
+                </div>
+                <div class="col-12 mt-2">
+                    {{ form_row(form_demoaccountform.informations) }}
+                </div>
+                <div class="col-12 mt-2" align="center">
+                    <input type="submit" value="Envoyer" class="btn btn-success">
+                </div>
+            </div>
+            {{ form_end(form_demoaccountform) }}
         </div>
     </div>
 {% endblock %}

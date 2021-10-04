@@ -33,17 +33,17 @@ class AddDemoAccountFormType extends AbstractType
                 'label' => false,
                 'required' => true
             ])
-            ->add('email', EmailType::class, [
+            ->add('phone', TextType::class, [
                 'attr' => ['class' => 'form-control', "placeholder" => "Votre numéro de téléphone"],
                 'label' => false,
                 'required' => true
             ])
-            ->add('city', EmailType::class, [
+            ->add('city', TextType::class, [
                 'attr' => ['class' => 'form-control', "placeholder" => "Ville"],
                 'label' => false,
                 'required' => true
             ])
-            ->add('findy_by', EmailType::class, [
+            ->add('find_by', TextType::class, [
                 'attr' => ['class' => 'form-control', "placeholder" => "Comment avez-vous connu L.E.R.E.C.M ?"],
                 'label' => false,
                 'required' => false
