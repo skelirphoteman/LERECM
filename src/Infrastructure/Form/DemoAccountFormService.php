@@ -26,9 +26,11 @@ class DemoAccountFormService
         $em->flush();
     }
 
-    public function addDemoAccountForm(DemoAccountForm $demoAccountForm, $user_ip) : ?String
+    public function addDemoAccountForm(DemoAccountForm $demoAccountForm) : ?String
     {
-        return $user_ip;
+        $demoAccountForm->setPostAt(new \DateTime('now'));
+
+        $this->insertDemoAccountForm($demoAccountForm);
         return null;
     }
 }

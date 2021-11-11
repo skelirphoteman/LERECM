@@ -30,10 +30,17 @@ class DemoAccountFormController extends AbstractController
         if($formDemoAccountForm->isSubmitted() && $formDemoAccountForm->isValid()){
             $demoAccountForm = $formDemoAccountForm->getData();
 
+            $demoAccountForm->setUserIp($_SERVER['REMOTE_ADDR']);
 
-            $serviceResponse = $demoAccountFormService->addDemoAccountForm($demoAccountForm, $_SERVER['REMOTE_ADDR']);
+            $serviceResponse = $demoAccountFormService->addDemoAccountForm($demoAccountForm);
 
-            die($serviceResponse);
+            if($serviceResponse){
+                $this->addFlash('danger', $serviceResponse);
+            }
+            else{
+                $this->addFlash('success', "Votre demande a bien été envoyé.");
+                return $this->redirectToRoute("core");
+            }
 
         }
 
@@ -41,5 +48,4 @@ class DemoAccountFormController extends AbstractController
             'form_demoaccountform' => $formDemoAccountForm->createView(),
         ]);
     }
-
 }
