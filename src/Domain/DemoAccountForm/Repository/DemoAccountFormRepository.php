@@ -19,22 +19,17 @@ class DemoAccountFormRepository extends ServiceEntityRepository
         parent::__construct($registry, DemoAccountForm::class);
     }
 
-    // /**
-    //  * @return DemoAccountForm[] Returns an array of DemoAccountForm objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findIfIpAlreadyUser(String $ip)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('d.user_ip = :ip')
+            ->andWhere('d.post_at > :date')
+            ->setParameters(['ip' => $ip, 'date' => new \DateTime('- 1 days')])
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?DemoAccountForm

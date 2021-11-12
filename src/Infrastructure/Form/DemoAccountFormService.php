@@ -26,8 +26,21 @@ class DemoAccountFormService
         $em->flush();
     }
 
+    private function AntiSpam(DemoAccountForm $demoAccountForm): bool
+    {
+
+        $requestExist = $this->entityManager->getRepository(DemoAccountForm::class)
+            ->findIfIpAlreadyUser($demoAccountForm->getUserIp());
+
+        if($requestExist)
+            return false;
+        return true;
+    }
+
     public function addDemoAccountForm(DemoAccountForm $demoAccountForm) : ?String
     {
+        if(!$this->AntiSpam($demoAccountForm))
+            return "Vous avez déjà fait une demande de compte récemment";
         $demoAccountForm->setPostAt(new \DateTime('now'));
 
         $this->insertDemoAccountForm($demoAccountForm);
