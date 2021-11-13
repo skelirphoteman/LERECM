@@ -317,6 +317,12 @@ class Client
         return $this;
     }
 
+    public function getBirthdayString(): ?String
+    {
+        if(!$this->birthday) return null;
+        return $this->birthday->format('d/m/Y');
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -327,6 +333,12 @@ class Client
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    public function getCreatedAtString(): ?String
+    {
+        if(!$this->created_at) return null;
+        return $this->created_at->format('d/m/Y');
     }
 
     public function getPostalCode(): ?int

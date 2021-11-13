@@ -85,3 +85,8 @@ services:
     App\Infrastructure\ActionListener\NewConnectionActionListener:
 
     App\Infrastructure\ActionListener\ActionListenerInterface $newConnectionActionListener: '@App\Infrastructure\ActionListener\NewConnectionActionListener'
+
+    #ExportDataCSV
+    #App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients:
+
+    App\Infrastructure\DataExport\SkelirCSVExportInterface $exportClientsList: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients'

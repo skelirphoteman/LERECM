@@ -31,4 +31,12 @@ class AccessService
 
         return null;
     }
+
+    public function userCompanyActionIsValid(): bool
+    {
+        if($this->subscriptionIsValid())
+            throw new AccessDeniedException('Vous n\'avez pas accéss à cette page.');
+
+        return true;
+    }
 }
