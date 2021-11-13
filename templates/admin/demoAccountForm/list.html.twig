@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Listes des demandes de compte démo{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% if demoAccountForms is not empty %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Tel.</th>
+                        <th scope="col">IP</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for demoAccountForm in demoAccountForms %}
+                        <tr>
+                            <th scope="row">{{ demoAccountForm.getId }}</th>
+                            <td>{{ demoAccountForm.getName }}</td>
+                            <td>{{ demoAccountForm.getPhone }}</td>
+                            <td>{{ demoAccountForm.getUserIp }}</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
