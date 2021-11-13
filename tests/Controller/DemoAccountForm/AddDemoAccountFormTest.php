@@ -33,13 +33,16 @@ class AddDemoAccountTestTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('POST', $this->index, [
-            'password' => 'test',
-            'password_second' => 'test1234'
+            'name' => 'Galoin Maxime',
+            'email' => 'galoin.maxime@gmail.com',
+            'phone' => '0760356985',
+            'city' => 'Marseille',
+            'find_by' => 'facebook',
+            'informations' => 'test'
         ]);
 
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSame(1, $crawler->filter('div.alert.alert-danger')->count());
     }
 
 }
