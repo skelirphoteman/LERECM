@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//domain
+use App\Domain\Client\Entity\Client;
+
 //Service
 use App\Infrastructure\Security\AccessService;
 use App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportInterface;
@@ -26,7 +29,7 @@ class DataExportClient extends AbstractController
      * @Route("client/list", name="app_export_client_list")
      * @return RedirectResponse
      */
-    public function exportDataClient(SkelirCsvExportInterface $exportClientsList)
+    public function exportDataClientsList(SkelirCsvExportInterface $exportClientsList)
     {
         $this->accessService->userCompanyActionIsValid();
 
@@ -34,5 +37,20 @@ class DataExportClient extends AbstractController
             'company_id' => $this->getUser()->getCompany()->getId(),
         ]);
     }
+
+    /**
+     * @Route("client/profil/{client}", name="app_export_client_profil")
+     * @return RedirectResponse
+     */
+    public function exportDataClientProfil(Client $client, SkelirCsvExportInterface $exportClientProfil)
+    {
+        $this->accessService->userCompanyActionIsValid();
+
+        return $exportClientProfil->generate([
+            'client_id' => $client->getId(),
+            'company_id' => $this->getUser()->getCompany()->getId(),
+        ]);
+    }
+
 
 }

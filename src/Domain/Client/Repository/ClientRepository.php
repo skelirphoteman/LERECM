@@ -31,6 +31,16 @@ class ClientRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getClientProfilToExport($client_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :client_id')
+            ->setParameter('client_id', $client_id)
+            ->getQuery()
+            ->getSingleResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Client

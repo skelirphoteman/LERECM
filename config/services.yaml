@@ -89,4 +89,5 @@ services:
     #ExportDataCSV
     #App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients:
 
-    App\Infrastructure\DataExport\SkelirCSVExportInterface $exportClientsList: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients'
+    App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportInterface $exportClientsList: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients'
+    App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportInterface $exportClientProfil: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClientProfil'

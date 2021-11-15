@@ -5,15 +5,22 @@ namespace App\Infrastructure\DataExport\SkelirCSVExport;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 
+use App\Infrastructure\Security\AccessService;
+
+
 abstract class SkelirCsvExport
 {
     protected $content = [];
 
     protected $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    protected $accessService;
+
+    public function __construct(EntityManagerInterface $entityManager,
+                                AccessService $accessService)
     {
         $this->entityManager = $entityManager;
+        $this->accessService = $accessService;
     }
 
 

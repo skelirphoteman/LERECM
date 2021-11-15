@@ -4,6 +4,7 @@ namespace App\Infrastructure\Security;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
+use App\Infrastructure\Security\AccessService;
 
 class AccessService
 {
