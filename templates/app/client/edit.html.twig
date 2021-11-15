@@ -261,8 +261,11 @@
         </div>
     <br><br><br>
     <div class="container-fuild">
-        <div class="row" align="right">
-            <a href="{{ path('app_export_client_profil', {client: client.getId}) }}" class="btn btn-primary">Exporter la fiche client</a>
+        <div class="row">
+            <div class="col-12" align="right" target="_blank">
+                <a href="{{ path('app_export_client_profil', {client: client.getId}) }}" class="btn btn-primary">Exporter la fiche client</a>
+
+            </div>
         </div>
     </div>
 
