@@ -5,6 +5,7 @@ namespace App\Domain\Client\Entity;
 use App\Domain\Client\Repository\ClientRepository;
 use App\Domain\Contract\Entity\Contract;
 use App\Domain\Documents\Entity\Document;
+use App\Domain\Intervention\Entity\Intervention;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -124,12 +125,18 @@ class Client
      */
     private $contracts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Intervention::class, mappedBy="client", orphanRemoval=true)
+     */
+    private $interventions;
+
     public function __construct(User $user)
     {
         $this->company = $user->getCompany();
         $this->created_at = new \DateTime('now');
         $this->documents = new ArrayCollection();
         $this->contracts = new ArrayCollection();
+        $this->interventions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -419,6 +426,36 @@ class Client
             // set the owning side to null (unless already changed)
             if ($contract->getClient() === $this) {
                 $contract->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Intervention[]
+     */
+    public function getInterventions(): Collection
+    {
+        return $this->interventions;
+    }
+
+    public function addIntervention(Intervention $intervention): self
+    {
+        if (!$this->interventions->contains($intervention)) {
+            $this->interventions[] = $intervention;
+            $intervention->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntervention(Intervention $intervention): self
+    {
+        if ($this->interventions->removeElement($intervention)) {
+            // set the owning side to null (unless already changed)
+            if ($intervention->getClient() === $this) {
+                $intervention->setClient(null);
             }
         }
 
