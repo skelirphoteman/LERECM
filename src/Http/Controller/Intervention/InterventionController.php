@@ -6,6 +6,7 @@ use App\Domain\Client\Entity\Client;
 use App\Domain\Intervention\Entity\Intervention;
 use App\Http\Form\AddInterventionType;
 use App\Infrastructure\Security\AccessService;
+use App\Infrastructure\Intervention\InterventionInterface;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,20 +35,39 @@ class InterventionController extends AbstractController
      * @Route("/add/{id}", name="app_intervention_add")
      */
     public function addIntervention(Client $id = null,
-                            Request $request) : Response
+                            Request $request,
+                            InterventionInterface $createIntervention) : Response
     {
         $client = $id;
         if(!$client){
             throw $this->createNotFoundException('Aucun client trouvé');
         }
+        $this->accessService->companyClientAccess($client);
 
         $intervention = new Intervention();
         $intervention->setStartAt(new \DateTimeImmutable('now'));
         $intervention->setEndAt(new \DateTimeImmutable('+ 1 hours'));
+        $intervention->setClient($client);
 
         $formIntervention = $this->createForm(AddInterventionType::class, $intervention);
 
-        $this->accessService->companyClientAccess($client);
+        $formIntervention->handleRequest($request);
+
+        if($formIntervention->isSubmitted() && $formIntervention->isValid())
+        {
+            $intervention = $formIntervention->getData();
+
+            $interventionResponse = $createIntervention->addIntervention($intervention);
+            if($interventionResponse)
+            {
+                $this->addFlash('danger', $interventionResponse);
+            }else
+            {
+                $this->addFlash('success', "L'intervention à bien été crée.");
+                return $this->redirectToRoute("app_client_edit", ["id" => $client->getId()]);
+
+            }
+        }
 
         return $this->render('app/client/intervention/add.html.twig', [
             'form_intervention' => $formIntervention->createView(),

@@ -91,3 +91,10 @@ services:
 
     App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportInterface $exportClientsList: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClients'
     App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportInterface $exportClientProfil: '@App\Infrastructure\DataExport\SkelirCSVExport\SkelirCsvExportClientProfil'
+
+
+    #doctrine
+    App\Infrastructure\SkelirDoctrine\SkelirDoctrineInterface $skelirIntervention: '@App\Infrastructure\SkelirDoctrine\Entity\SkelirIntervention'
+
+    #intervention
+    App\Infrastructure\Intervention\InterventionInterface $createIntervention: '@App\Infrastructure\Intervention\InterventionAdd'

@@ -28,12 +28,13 @@ class AddInterventionType extends AbstractType
             ->add('informations', TextareaType::class, [
                 'attr' => ['class' => 'form-control', "placeholder" => "Informations sur l'intervention"],
                 'label' => false,
-                'required' => false
+                'required' => true
             ])
             ->add('start_at', DateTimeType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => "Début de l'intervention :",
                 'html5' => false,
+                'input' => 'datetime_immutable',
                 'format' => 'dd/MM/yyyy HH:mm',
                 'required' => true
             ])
@@ -41,6 +42,7 @@ class AddInterventionType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'label' => "Fin de l'intervention :",
                 'html5' => false,
+                'input' => 'datetime_immutable',
                 'format' => 'dd/MM/yyyy HH:mm',
                 'required' => true
             ])

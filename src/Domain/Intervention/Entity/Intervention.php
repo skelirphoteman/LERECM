@@ -52,8 +52,6 @@ class Intervention
 
     public function __constrcut()
     {
-        $this->start_at = new \DateTime('now');
-        $this->end_at = new \DateTime('+ 1 hours');
     }
 
     public function getId(): ?int
