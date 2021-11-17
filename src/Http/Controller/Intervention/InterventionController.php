@@ -3,7 +3,8 @@
 namespace App\Http\Controller\Intervention;
 
 use App\Domain\Client\Entity\Client;
-use App\Http\Form\AddFileType;
+use App\Domain\Intervention\Entity\Intervention;
+use App\Http\Form\AddInterventionType;
 use App\Infrastructure\Security\AccessService;
 
 use Symfony\Component\HttpFoundation\File\File;
@@ -32,7 +33,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/add/{id}", name="app_intervention_add")
      */
-    public function addFile(Client $id = null,
+    public function addIntervention(Client $id = null,
                             Request $request) : Response
     {
         $client = $id;
@@ -40,8 +41,16 @@ class InterventionController extends AbstractController
             throw $this->createNotFoundException('Aucun client trouvé');
         }
 
+        $intervention = new Intervention();
+        $intervention->setStartAt(new \DateTimeImmutable('now'));
+        $intervention->setEndAt(new \DateTimeImmutable('+ 1 hours'));
+
+        $formIntervention = $this->createForm(AddInterventionType::class, $intervention);
+
         $this->accessService->companyClientAccess($client);
 
-        return $this->render('app/client/intervention/add.html.twig');
+        return $this->render('app/client/intervention/add.html.twig', [
+            'form_intervention' => $formIntervention->createView(),
+        ]);
     }
 }

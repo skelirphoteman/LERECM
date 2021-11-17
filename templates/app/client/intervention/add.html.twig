@@ -5,7 +5,41 @@
 {% block body %}
     <div class="container">
         <div class="row">
-
+            {{ form_start(form_intervention) }}
+            {{ form_errors(form_intervention) }}
+            <div class="col-12 mt-2">
+                {{ form_row(form_intervention.title) }}
+            </div>
+            <div class="col-12 mt-2">
+                <div class="row">
+                    {{ form_label(form_intervention.start_at) }}
+                    {{ form_widget(form_intervention.start_at.date.day, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.start_at.date.month, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.start_at.date.year, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.start_at.time.hour, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.start_at.time.minute, {'attr': {'class': 'form-select col'}}) }}
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 mt-2">
+                <div class="row">
+                    {{ form_label(form_intervention.end_at) }}
+                    {{ form_widget(form_intervention.end_at.date.day, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.end_at.date.month, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.end_at.date.year, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.end_at.time.hour, {'attr': {'class': 'form-select col'}}) }}
+                    {{ form_widget(form_intervention.end_at.time.minute, {'attr': {'class': 'form-select col'}}) }}
+                </div>
+            </div>
+            <div class="col-12  mt-2">
+                {{ form_row(form_intervention.is_visible) }}
+            </div>
+            <div class="col-12 mt-2">
+                {{ form_row(form_intervention.informations) }}
+            </div>
+            <div class="col-12 mt-2">
+                <input type="submit" value="Créer" class="btn btn-success">
+            </div>
+            {{ form_end(form_intervention) }}
         </div>
     </div>
 {% endblock %}
