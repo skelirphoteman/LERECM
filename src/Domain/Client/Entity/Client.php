@@ -127,6 +127,7 @@ class Client
 
     /**
      * @ORM\OneToMany(targetEntity=Intervention::class, mappedBy="client", orphanRemoval=true)
+     * @ORM\OrderBy({"start_at" = "DESC"})
      */
     private $interventions;
 

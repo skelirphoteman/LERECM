@@ -73,4 +73,44 @@ class InterventionController extends AbstractController
             'form_intervention' => $formIntervention->createView(),
         ]);
     }
+
+    /**
+     * @Route("/view/{intervention}", name="app_intervention_view")
+     * @param Intervention $intervention
+     * @return Response
+     */
+    public function viewIntervention(Intervention $intervention = null,Request $request,
+                                     InterventionInterface $createIntervention): Response
+    {
+        if(!$intervention){
+            throw $this->createNotFoundException('Aucune Intervention trouvé');
+        }
+        $this->accessService->companyClientAccess($intervention->getClient());
+
+        //form
+        $formIntervention = $this->createForm(AddInterventionType::class, $intervention);
+
+        $formIntervention->handleRequest($request);
+
+        if($formIntervention->isSubmitted() && $formIntervention->isValid())
+        {
+            $intervention = $formIntervention->getData();
+
+            $interventionResponse = $createIntervention->addIntervention($intervention);
+            if($interventionResponse)
+            {
+                $this->addFlash('danger', $interventionResponse);
+            }else
+            {
+                $this->addFlash('success', "L'intervention à bien été crée.");
+                return $this->redirectToRoute("app_intervention_view", ["intervention" => $intervention->getId()]);
+
+            }
+        }
+
+        return $this->render('app/client/intervention/view.html.twig', [
+            'intervention' => $intervention,
+            'form_intervention' => $formIntervention->createView(),
+        ]);
+    }
 }

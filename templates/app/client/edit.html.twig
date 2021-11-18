@@ -226,37 +226,35 @@
             <div class="col-12">
                 <div class="card border-dark mb-3">
                     <div class="card-header" align="center">Interventions pour ce client</div>
-                    <div class="card-body">
-                        <div class="" style="max-height: 500px;">
+                    <div class="card-body" style="overflow: auto;">
+                        <div class="" style="max-height: 500px; min-width:700px;">
                                 <table class="table table-secondary table-bordered">
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
+                                        <th scope="col">Intitulé</th>
+                                        <th scope="col">Début</th>
+                                        <th scope="col">Fin</th>
+                                        <th scope="col">consulter</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="table-info">
-                                            <th scope="row">#</th>
-                                            <td>First</td>
-                                            <td>Last</td>
-                                            <td>Handle</td>
+                                    {% for intervention in client.getInterventions %}
+                                        <tr>
+                                            <th scope="row">{{ intervention.getId }}</th>
+                                            <td>{{ intervention.getTitle }}</td>
+                                            <td>{{ intervention.getStartAt|date('j/m H:i') }}</td>
+                                            <td>{{ intervention.getEndAt|date('j/m H:i') }}</td>
+                                            <td><a href="{{ path('app_intervention_view', {intervention: intervention.getId}) }}" class="btn btn-primary">Voir</a></td>
                                         </tr>
-                                        <tr class="table-info">
-                                            <th scope="row">#</th>
-                                            <td>First</td>
-                                            <td>Last</td>
-                                            <td>Handle</td>
-                                        </tr>
+                                    {% endfor %}
                                     </tbody>
 
                                 </table>
                         </div>
                     </div>
                     <div class="card-footer" align="right">
-                        <a href="{{ path('app_intervention_add', {id: client.getId}) }}" class="btn btn-primary">Ajouter une nouvelle intervention</a>
+                        <a href="{{ path('app_intervention_add', {id: client.getId}) }}" class="btn btn-success">Ajouter une nouvelle intervention</a>
                     </div>
                 </div>
             </div>
