@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-
+use App\Infrastructure\SkelirMailer\SkelirMailerInterface;
 
 /**
  * Class InterventionController
@@ -112,5 +112,36 @@ class InterventionController extends AbstractController
             'intervention' => $intervention,
             'form_intervention' => $formIntervention->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/notif/{intervention}", name="app_intervention_notif")
+     * @param Intervention|null $intervention
+     * @param SkelirMailerInterface $notifInterventionClient
+     * @return Response
+     */
+    public function notifClient(Intervention $intervention = null, SkelirMailerInterface $notifInterventionClient): Response
+    {
+        if(!$intervention){
+            throw $this->createNotFoundException('Aucune Intervention trouvé');
+        }
+        $this->accessService->companyClientAccess($intervention->getClient());
+
+        if($intervention->getIsNotified())
+        {
+            $this->addFlash('danger', 'Vous avez déjà notifier le client par mail.');
+        }else
+        {
+            $notifInterventionClient->send($intervention->getClient()->getEmail(), [
+                'company_name' => $intervention->getClient()->getCompany()->getName(),
+                'intervention_name' => $intervention->getTitle(),
+                'intervention_start_at' => $intervention->getStartAt()->format('j/m/y H:i'),
+                'intervention_end_at' => $intervention->getEndAt()->format('j/m/y H:i')
+            ]);
+
+            $this->addFlash('success', 'Le client à bien été notifié');
+        }
+
+        return $this->redirectToRoute('app_intervention_view', ["intervention" => $intervention->getId()]);
     }
 }

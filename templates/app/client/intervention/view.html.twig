@@ -55,9 +55,10 @@
             <div class="col-12 mt-4">
                 <div class="row">
                     <div class="col-6" align="left">
-                        {% if intervention.getIsNotif %}
+                        {% if intervention.getIsNotified %}
+                            deja notifier
                         {% else %}
-                            <a href="{{ path('app_client_edit', {id: intervention.getClient.getId}) }}" class="btn btn-outline-primary">Informer le client par mail</a>
+                            <a href="{{ path('app_intervention_notif', {intervention: intervention.getId}) }}" class="btn btn-outline-primary">Informer le client par mail</a>
                         {% endif %}
                     </div>
 

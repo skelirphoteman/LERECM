@@ -56,12 +56,17 @@ services:
       arguments:
         $env: '%env(APP_SKELIR_ENV)%'
 
+    App\Infrastructure\SkelirMailer\InterventionNotificationClientSkelirMailer:
+      arguments:
+        $env: '%env(APP_SKELIR_ENV)%'
+
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $createUserMailer: '@App\Infrastructure\SkelirMailer\CreateUserSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $resetPasswordMailer: '@App\Infrastructure\SkelirMailer\ResetPasswordSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $confirmResetPasswordMailer: '@App\Infrastructure\SkelirMailer\ConfirmResetPasswordSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $createSubscriptionMailer: '@App\Infrastructure\SkelirMailer\CreateSubscriptionSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $adminCreateSupportTicket: '@App\Infrastructure\SkelirMailer\AdminCreateSupportTicketSkelirMailer'
     App\Infrastructure\SkelirMailer\SkelirMailerInterface $notificationConnexion: '@App\Infrastructure\SkelirMailer\NotificationConnexionSkelirMailer'
+    App\Infrastructure\SkelirMailer\SkelirMailerInterface $notifInterventionClient: '@App\Infrastructure\SkelirMailer\InterventionNotificationClientSkelirMailer'
 
     #Skelir Telgram
     App\Infrastructure\SkelirTelegram\NewConnectionSkelirTelegram:

@@ -50,6 +50,11 @@ class Intervention
      */
     private $end_at;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_notified;
+
     public function __constrcut()
     {
     }
@@ -134,5 +139,17 @@ class Intervention
     public function getCompany() : Company
     {
         return $this->client->getCompany();
+    }
+
+    public function getIsNotified(): ?bool
+    {
+        return $this->is_notified;
+    }
+
+    public function setIsNotified(?bool $is_notified): self
+    {
+        $this->is_notified = $is_notified;
+
+        return $this;
     }
 }
