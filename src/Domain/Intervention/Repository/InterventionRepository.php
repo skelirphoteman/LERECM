@@ -19,22 +19,30 @@ class InterventionRepository extends ServiceEntityRepository
         parent::__construct($registry, Intervention::class);
     }
 
-    // /**
-    //  * @return Intervention[] Returns an array of Intervention objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findInterventionOfWeek(\DateTimeImmutable $date, int $company_id)
     {
+        $days = $date->format('N') - 1;
+        $start_week = $date->sub(new \DateInterval('P'. $days . 'D'));
+        $diff_sunday = 6 - $days;
+        $end_date = $start_week->add(new \DateInterval('P6D'));
+
+
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('i.client', 'c')
+            ->andWhere('i.start_at BETWEEN :monday AND :sunday')
+            ->andWhere('c.company = :company_id')
+            ->setParameters([
+                'monday' => $start_week->format('Y-m-d'),
+                'sunday' => $end_date->format('Y-m-d'),
+                'company_id'=> $company_id
+            ])
+            ->orderBy('i.start_at', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Intervention

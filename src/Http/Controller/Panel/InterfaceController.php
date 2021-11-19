@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controller\Panel;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Domain\Contract\Entity\Contract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use App\Domain\Article\Entity\Article;
 use App\Domain\Task\Entity\Task;
+use App\Domain\Intervention\Entity\Intervention;
 
 /**
  * Class InterfaceController
@@ -45,10 +46,26 @@ class InterfaceController extends AbstractController
             ->getRepository(Contract::class)
             ->findContractByCompany($this->getUser()->getCompany()->getId());
 
+        $interventionOfWeek = $this->getDoctrine()
+            ->getRepository(Intervention::class)
+            ->findInterventionOfWeek(new \DateTimeImmutable(), $this->getUser()->getCompany()->getId());
+
+        $planning = new ArrayCollection();
+
+        for ($i = 1; $i < 8; $i++) {
+            $planning->add(new ArrayCollection());
+        }
+        foreach($interventionOfWeek as $intervention)
+        {
+            $planning->get($intervention->getStartAt()->format('N') -1 )->add($intervention);
+        }
+        //die($planning->get(5)->get(0)->getTitle());
+
         return $this->render('app/panel/Index.html.twig', [
             'articles' => $articles,
             'tasks' => $tasks,
-            'contracts' => $contracts
+            'contracts' => $contracts,
+            'planning' => $planning
         ]);
     }
 }

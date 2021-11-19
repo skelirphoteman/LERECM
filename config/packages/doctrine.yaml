@@ -16,3 +16,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain'
                 prefix: 'App\Domain'
                 alias: Domain
+        dql:
+            string_functions:
+                DAY: DoctrineExtensionsQueryMysqlDay
