@@ -120,7 +120,8 @@ class InterventionController extends AbstractController
      * @param SkelirMailerInterface $notifInterventionClient
      * @return Response
      */
-    public function notifClient(Intervention $intervention = null, SkelirMailerInterface $notifInterventionClient): Response
+    public function notifClient(Intervention $intervention = null,
+                                SkelirMailerInterface $notifInterventionClient): Response
     {
         if(!$intervention){
             throw $this->createNotFoundException('Aucune Intervention trouvé');
@@ -132,14 +133,24 @@ class InterventionController extends AbstractController
             $this->addFlash('danger', 'Vous avez déjà notifier le client par mail.');
         }else
         {
-            $notifInterventionClient->send($intervention->getClient()->getEmail(), [
+            if(empty($intervention->getClient()->getEmail()))
+            {
+                $this->addFlash('danger', 'Aucune adresse mail affilié à ce client.');
+            }else{
+                $notifInterventionClient->send($intervention->getClient()->getEmail(), [
                 'company_name' => $intervention->getClient()->getCompany()->getName(),
                 'intervention_name' => $intervention->getTitle(),
                 'intervention_start_at' => $intervention->getStartAt()->format('j/m/y H:i'),
                 'intervention_end_at' => $intervention->getEndAt()->format('j/m/y H:i')
             ]);
+                $em = $this->getDoctrine()->getManager();
+                $intervention->setIsNotified(true);
+                $em->persist($intervention);
+                $em->flush();
+                $this->addFlash('success', 'Le client à bien été notifié');
 
-            $this->addFlash('success', 'Le client à bien été notifié');
+            }
+
         }
 
         return $this->redirectToRoute('app_intervention_view', ["intervention" => $intervention->getId()]);
