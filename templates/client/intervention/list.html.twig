@@ -1,0 +1,62 @@
+{% extends 'client/index.html.twig' %}
+
+{% block title %}Mes interventions{% endblock %}
+
+{% block body %}
+    <div class="col-12" align="center">
+        <h1>Interventions prévue</h1>
+    </div>
+    <div class="col-12 mt-2">
+        <h2>Intervention à venir </h2>
+        {% if interventions_in_comming is not empty %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Début</th>
+                    <th scope="col">Fin</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for intervention in interventions_in_comming %}
+                    <tr>
+                        <td>{{ intervention.getTitle }}</td>
+                        <td>{{ intervention.getStartAt|date('j/m H:i') }}</td>
+                        <td>{{ intervention.getEndAt|date('j/m H:i') }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            {% else %}
+            <b>Aucune intervention à venir...</b>
+        {% endif %}
+    </div>
+
+    <div class="col-12 mt-2">
+        <h2 align="right">Intervention fini </h2>
+        {% if interventions_finish is not empty %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Début</th>
+                    <th scope="col">Fin</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for intervention in interventions_finish %}
+                    <tr>
+                        <td>{{ intervention.getTitle }}</td>
+                        <td>{{ intervention.getStartAt|date('j/m H:i') }}</td>
+                        <td>{{ intervention.getEndAt|date('j/m H:i') }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% else %}
+            <b>Aucune intervention enregistré...</b>
+        {% endif %}
+    </div>
+{% endblock %}

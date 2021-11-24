@@ -54,7 +54,7 @@ class UserClientController extends AbstractController
             ->findBy(["client" => $client]);
 
 
-        return $this->render('client/panel/index.html.twig', [
+        return $this->render('client/panel/panel.html.twig', [
             'client' => $client,
             'invoices' => $invoices,
             'quotes' => $quotes,

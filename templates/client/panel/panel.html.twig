@@ -1,73 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Espace Client</title>
-    {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('base') }}
+{% extends 'client/index.html.twig' %}
 
-    {% endblock %}
+{% block title %}Mon compte{% endblock %}
 
-    {% block javascript %}
-    {{ encore_entry_script_tags('basejs') }}
-{% endblock %}
-
-
-</head>
-<body>
-<div class="container mt-2">
-    <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" align="center">
-                        <h1>Vos informations enregistrer par l'entreprise</h1>
+{% block body %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" align="center">
+                    <h1>Vos informations enregistrer par l'entreprise</h1>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Informations importantes :</h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Nom : <strong>{{ client.getSurname }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Prénom : <strong>{{ client.getName }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Anniversaire : <strong>{{ client.getBirthday|date('d/m/Y') }}</strong></div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Informations importantes :</h3>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Nom : <strong>{{ client.getSurname }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Prénom : <strong>{{ client.getName }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Anniversaire : <strong>{{ client.getBirthday|date('d/m/Y') }}</strong></div>
-                            </div>
+                    <h3 class="card-title">Coordonnées :</h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Tél. : <strong>{{ client.getPhone }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Fixe : <strong>{{ client.getHomePhone }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Email : <strong>{{ client.getEmail }}</strong></div>
                         </div>
-                        <h3 class="card-title">Coordonnées :</h3>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Tél. : <strong>{{ client.getPhone }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Fixe : <strong>{{ client.getHomePhone }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Email : <strong>{{ client.getEmail }}</strong></div>
-                            </div>
-                        </div>
-                        <h3 class="card-title">Localisation :</h3>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12 mt-2">Rue : <strong>{{ client.getAvenue }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Code Postale : <strong>{{ client.getPostalCode }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Ville : <strong>{{ client.getCity }}</strong></div>
-                                <div class="col-12 col-sm-6 col-md-4 mt-2">Pays : <strong>{{ client.Country }}</strong></div>
-                            </div>
-                        </div>
-                        {% if client.getIsCompany %}
-                            <h3 class="card-title">Informations sur l'entreprise :</h3>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 mt-2">Dénomination Social : <strong>{{ client.getCompanyName }}</strong></div>
-                                    <div class="col-12 col-sm-6 mt-2">N° de Siret : <strong>{{ client.getSiret }}</strong></div>
-                                    <div class="col-12 col-sm-6 mt-2">Code APE : <strong>{{ client.getApeCode }}</strong></div>
-                                    <div class="col-12 col-sm-6 mt-2">N° de TVA : <strong>{{ client.getTVACode }}</strong></div>
-                                </div>
-                            </div>
-                        {% endif %}
                     </div>
+                    <h3 class="card-title">Localisation :</h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 mt-2">Rue : <strong>{{ client.getAvenue }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Code Postale : <strong>{{ client.getPostalCode }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Ville : <strong>{{ client.getCity }}</strong></div>
+                            <div class="col-12 col-sm-6 col-md-4 mt-2">Pays : <strong>{{ client.Country }}</strong></div>
+                        </div>
+                    </div>
+                    {% if client.getIsCompany %}
+                        <h3 class="card-title">Informations sur l'entreprise :</h3>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 mt-2">Dénomination Social : <strong>{{ client.getCompanyName }}</strong></div>
+                                <div class="col-12 col-sm-6 mt-2">N° de Siret : <strong>{{ client.getSiret }}</strong></div>
+                                <div class="col-12 col-sm-6 mt-2">Code APE : <strong>{{ client.getApeCode }}</strong></div>
+                                <div class="col-12 col-sm-6 mt-2">N° de TVA : <strong>{{ client.getTVACode }}</strong></div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-    </div>
-</div>
-<div class="container-fluid p-5">
-    <div class="row">
+        </div>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -184,33 +164,32 @@
                         </div>
                     {% else %}
                         {% for contract in contracts %}
-                        <div class="col-12 mt-2">
-                            <div class="card">
-                                <div class="card-header" align="center">
-                                    <h3>{{ contract.getTitle }}</h3>
-                                </div>
-                                <div class="card-body text-left">
-                                    <ul>
-                                        <li>Début du contrat : <strong>{{ contract.getStartAt|date('d/m/Y') }}</strong></li>
-                                        <li>Fin du contrat : <strong>{{ contract.getEndAt|date('d/m/Y') }}</strong></li>
-                                        <li>Type de contrat : <strong>{{ contract.getContractTypeString }}</strong></li>
-                                        <li>Montant : <strong>{{ contract.getPrice }}€</strong></li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer " align="center">
-                                    <p class="badge rounded-pill {{ contract.getStateBadge }}">{{ contract.getStateString }}</p>
+                            <div class="col-12 mt-2">
+                                <div class="card">
+                                    <div class="card-header" align="center">
+                                        <h3>{{ contract.getTitle }}</h3>
+                                    </div>
+                                    <div class="card-body text-left">
+                                        <ul>
+                                            <li>Début du contrat : <strong>{{ contract.getStartAt|date('d/m/Y') }}</strong></li>
+                                            <li>Fin du contrat : <strong>{{ contract.getEndAt|date('d/m/Y') }}</strong></li>
+                                            <li>Type de contrat : <strong>{{ contract.getContractTypeString }}</strong></li>
+                                            <li>Montant : <strong>{{ contract.getPrice }}€</strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer " align="center">
+                                        <p class="badge rounded-pill {{ contract.getStateBadge }}">{{ contract.getStateString }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
                     {% endif %}
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% block javascripts %}
-    {{ encore_entry_script_tags('basejs') }}
+
+        <!-- Deconnexion -->
+        <div class="col-12 mt-2" align="right">
+            <a href="{{ path('app_logout') }}" class="btn btn-dark">Se déconnecter</a>
+        </div>
 {% endblock %}
-</body>
-</html>

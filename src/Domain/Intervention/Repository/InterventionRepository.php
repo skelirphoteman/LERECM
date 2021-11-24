@@ -44,6 +44,48 @@ class InterventionRepository extends ServiceEntityRepository
     }
 
 
+
+    public function findInterventionInCommingForClient(int $client_id)
+    {
+        $today = new \DatetimeImmutable();
+
+
+        return $this->createQueryBuilder('i')
+            ->join('i.client', 'c')
+            ->andWhere('i.start_at >= :today')
+            ->andWhere('c.id = :client_id')
+            ->andWhere('i.is_visible = true')
+            ->setParameters([
+                'today' => $today->format('Y-m-d'),
+                'client_id'=> $client_id
+            ])
+            ->orderBy('i.start_at', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findInterventionFinishForClient(int $client_id)
+    {
+        $today = new \DatetimeImmutable();
+
+
+        return $this->createQueryBuilder('i')
+            ->join('i.client', 'c')
+            ->andWhere('i.start_at < :today')
+            ->andWhere('c.id = :client_id')
+            ->andWhere('i.is_visible = true')
+            ->setParameters([
+                'today' => $today->format('Y-m-d'),
+                'client_id'=> $client_id
+            ])
+            ->orderBy('i.start_at', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
     /*
     public function findOneBySomeField($value): ?Intervention
     {
