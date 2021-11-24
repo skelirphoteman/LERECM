@@ -5,25 +5,27 @@
 {% block body %}
     <div class="container">
         <div class="row">
+            <h1 align="center">Nos articles</h1>
+            <hr>
             {% if articles is not empty %}
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Consulter</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <div class="card border-infor">
+
+                </div>
                     {% for article in articles %}
-                        <tr>
-                            <th scope="row">{{ article.getId }}</th>
-                            <td>{{ article.getTitle }}</td>
-                            <td><a href="{{ path('app_article_view', {article : article.getId}) }}" class="btn btn-primary">Lire l'article</a></td>
-                        </tr>
+                        <div class="col-6 p-2">
+                            <div class=" card border-info">
+                                <div class="card-body">
+                                    <div style="max-height: 100px;overflow: hidden;">
+                                        {{ article.Title }}
+                                    </div>
+                                </div>
+                                <div class="card-footer" align="right">
+                                    <a href="{{ path('app_article_view', {article : article.getId}) }}" class="btn btn-primary">Lire l'article</a>
+                                </div>
+                            </div>
+                        </div>
+
                     {% endfor %}
-                    </tbody>
-                </table>
             {% endif %}
         </div>
     </div>

@@ -25,4 +25,4 @@ yarn-error.log
 ###< symfony/phpunit-bridge ###
 
 ### uploads ###
-/public/uploads/
+/uploads/

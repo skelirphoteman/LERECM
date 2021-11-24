@@ -9,8 +9,8 @@
                 <div class="card p-1">
                     <div class="row">
                         <div class="col-12 col-lg-8">
-                            <div class="card ">
-                                <div class="card-header" align="center">
+                            <div class="card border-info">
+                                <div class="card-header bg-info" align="center">
                                     Dernier(s) clients ajouté
                                 </div>
                                 <div class="card-body p-2" style="overflow-x: auto;">
@@ -37,9 +37,9 @@
                                     </table>
                                     {% endif %}
                                 </div>
-                                <div class="card-footer" align="center">
-                                    <a href="{{ path('app_client_add') }}" class="btn btn-outline-success btn-sm">Ajouter un client</a>
-                                    <a href="{{ path('app_client_list') }}" class="btn btn-outline-warning btn-sm">Liste des clients</a>
+                                <div class="card-footer bg-info" align="center">
+                                    <a href="{{ path('app_client_add') }}" class="btn btn-success ">Ajouter un client</a>
+                                    <a href="{{ path('app_client_list') }}" class="btn btn-warning ">Liste des clients</a>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                 <h2>Questions (S.A.V) :</h2>
                                 {% if app.user.getCompany.getSupportTickets is not empty %}
                                     <table class="table table-bordered">
-                                        <thead class="table-warning">
+                                        <thead class="table-dark">
                                         <tr>
                                             <th>Titre</th>
                                             <th>Consulter</th>
@@ -115,14 +115,14 @@
                     <!-- paiements -->
 
                     <div class="col-12 col-lg-8 mt-4">
-                        <div class="card ">
-                            <div class="card-header" align="center">
+                        <div class="card border-info">
+                            <div class="card-header bg-info " align="center">
                                 Rappel des prochains paiements de contrat
                             </div>
                             <div class="card-body p-2" style="overflow-x: auto;">
                                 {% if contracts is not empty %}
                                     <table class="table table-bordered">
-                                        <thead class="table-success">
+                                        <thead class="table-dark">
                                         <tr>
                                             <th>Titre</th>
                                             <th>Date du prochain paiement</th>
@@ -147,29 +147,13 @@
                             </div>
                         </div>
                     </div>
+        <!-- Plannig -->
 
-
-                        <div class="col-12 mt-4">
-                            {% if articles is not empty %}
-                                <h3 align="center">Nos derniers articles</h3>
-                                {% for article in articles %}
-                                    <div class="card mt-2">
-                                        <div class="card-body">
-                                            <strong style="text-overflow: ellipsis;">{{ article.getTitle }}</strong>
-                                            <br>
-                                            <div align="right">
-                                                <a href="{{ path('app_article_view', {article: article.getId}) }}" class="btn btn-outline-primary">Lire l'article</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <h3>Aucun Articles n'est actuellement disponible</h3>
-                            {% endif %}
+                    <div class="col-12 mt-5">
+                        <div align="center">
+                            <h2>Planning de la semaine</h2>
                         </div>
-
-                        <div class="col-12" >
-                            <div class="" style="overflow-x: auto;">
+                        <div class="" style="overflow-x: auto;">
                             <table class="table table-bordered" >
                                 <thead class="table-info">
                                 <tr>
@@ -194,7 +178,7 @@
                                                                 {{ intervention.getStartAt|date('H:i') }}
                                                             </div>
                                                             <div class="col-8">
-                                                                {{ intervention.getTitle }}
+                                                                <a href="{{ path('app_intervention_view', {intervention: intervention.getId}) }}" class="link-secondary">{{ intervention.getTitle }}</a>
                                                             </div>
                                                         </div>
 
@@ -206,7 +190,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>

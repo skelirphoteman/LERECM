@@ -80,7 +80,7 @@ class Quote extends Document
     public function getDir($projectDir) : String
     {
         return $projectDir .
-            '/public/uploads/documents/' .
+            '/uploads/documents/' .
             $this->getClient()->getCompany()->getId() .
             '/quote/' .
             $this->getFilename() .
