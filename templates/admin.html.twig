@@ -54,6 +54,14 @@
                         <li><a class="dropdown-item" href="{{ path('admin_demoaccountform_list') }}">Demande de démo</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="SpamDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Anti-Spam
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="SpamDropdown">
+                        <li><a class="dropdown-item" href="{{ path('admin_spam_mailer_add') }}">Ajouter sur Email</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{ path('app_index') }}" class="nav-link btn btn-success">Retour sur le panel</a>
                 </li>

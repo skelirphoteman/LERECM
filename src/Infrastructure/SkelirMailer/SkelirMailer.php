@@ -8,6 +8,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Domain\AntiSpamMailer\Entity\AntiSpamMailer;
+use Doctrine\ORM\EntityManagerInterface;
 abstract class SkelirMailer
 {
 
