@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Http\Admin\Form\AddAntiSpamMailerType;
 use App\Domain\AntiSpamMailer\Entity\AntiSpamMailer;
 /**
  * Class ArticleAdminController
@@ -21,6 +21,9 @@ class AntiSpamMailerController extends AbstractController
     public function addSpamMailer() : Response
     {
 
+        $antiSpamMailer = new AntiSpamMailer();
+
+        $formAPM = $this->createForm(AddAntiSpamMailerType::class, $antiSpamMailer);
 
         return $this->render('admin/spam/mailer/add.html.twig');
     }

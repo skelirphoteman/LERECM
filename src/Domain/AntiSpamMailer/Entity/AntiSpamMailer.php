@@ -4,9 +4,11 @@ namespace App\Domain\AntiSpamMailer\Entity;
 
 use App\Domain\AntiSpamMailer\Repository\AntiSpamMailerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AntiSpamMailerRepository::class)
+ * @UniqueEntity("mail")
  */
 class AntiSpamMailer
 {

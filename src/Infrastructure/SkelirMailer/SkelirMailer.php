@@ -31,16 +31,16 @@ abstract class SkelirMailer
 
     protected function sendMail(): ?String
     {
-        if($this->emailIsSpam)
+        if($this->emailIsSpam())
             return "L'adresse email contacté ne souhaite plus recevoir de mail de cette application. Veuillez lui signaler de réactivé son adresse mail.";
 
         if($this->env == "dev")
         {
-            $this->email = "test1@skelirscreation.fr";
+            $this->email = "galoin.julien@gmail.com";
         }
         try {
             $mail = (new TemplatedEmail())
-                ->from('no-reply@skelirscreation.fr')
+                ->from('no-reply@lerecm.fr')
                 ->to($this->email)
                 ->subject($this->subject)
                 ->htmlTemplate($this->htmlTemplate)
